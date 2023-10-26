@@ -117,7 +117,11 @@ class Freezer extends Vilain
         $this->pv = 100;
         $this->attaque_vilain = "";
         $this->attacks = [["coup de queue", $this->puissance], ["boule de la mort", 50]];
+<<<<<<< HEAD
         $this->bonus = [["supernova"]];
+=======
+        $this->bonus = ["supernova", 95];
+>>>>>>> a504d8676f5d8b4b88217c7fadd7f6b9f69dd4bf
     }
 }
 class Cell extends Vilain
