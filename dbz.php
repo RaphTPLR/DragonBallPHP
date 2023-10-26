@@ -4,10 +4,10 @@
     protected $puissance;
     protected $pv;
 
-    public function __construct($nom,$puissance,$pv){
-        $this->nom=$nom;
-        $this->puissance=$puissance;
-        $this->pv=$pv;
+    public function __construct($Nom,$Puissance,$Pv){
+        $this->nom=$Nom;
+        $this->puissance=$Puissance;
+        $this->pv=$Pv;
     }
 
  }
@@ -15,24 +15,24 @@
  class Hero extends Personnages{
     protected $attaque_hero;
 
-    public function __construct($nom,$puissance,$pv,$attaque_hero){
-        parent::__construct($nom,$puissance,$pv);
-        $this->attaque_hero = $attaque_hero;
+    public function __construct($Nom,$Puissance,$Pv,$Attaque_hero){
+        parent::__construct($Nom,$Puissance,$Pv);
+        $this->attaque_hero = $Attaque_hero;
     }
 }
 
  class Vilain extends Personnages{
     protected $attaque_vilain;
-    public function __construct($nom,$puissance,$pv,$attaque_vilain) {
-        parent:: __construct($nom,$puissance,$pv);
-        $this->attaque_vilain = $attaque_vilain;
+    public function __construct($Nom,$Puissance,$Pv,$Attaque_vilain) {
+        parent:: __construct($Nom,$Puissance,$Pv);
+        $this->attaque_vilain = $Attaque_vilain;
     }
-    public function getVilain() {
+    public function getNom() {
        return $this->nom;
     }
  }
 
 
-$vilain = new Vilain();
-$vilain->getVilain();
+$vilain = new Vilain("Nom", 25, 200, "Feur");
+$vilain->getNom();
 ?>
