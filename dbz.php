@@ -36,13 +36,24 @@ class Personnages
     {
         $attack = $this->getPuissance();
         $pv = $enemie->getPv();
+        $this->PrendreDegats($pv, $attack, $enemie);
+    }
+
+    public function PrendreDegats($pv, $attack, $enemie)
+    {
         $update = $pv - $attack;
         if ($update > 0) {
             $enemie->setPv($update);
             echo "Il ne te reste plus que ", $enemie->getPv(), " PV à ", $enemie->getNom(), "!\n";
         } else {
-            echo $enemie->getNom(), "est mort !\n";
+            $this->Mourir($enemie);
         }
+
+    }
+
+    public function Mourir($personnage)
+    {
+        echo $personnage->getNom(), " est mort !\n";
     }
 }
 
@@ -123,6 +134,7 @@ while ($a == 0) {
     switch ($choice) {
         case 1:
             popen("cls", "w");
+            echo $goku->getNom(), " attaque !\n\n", $freezer->getPv(), "\n", $goku->Attack($freezer), "\n";
             echo $goku->getNom(), " attaque !\n\n", $freezer->getPv(), "\n", $goku->Attack($freezer), "\n";
             readline("> ");
             break;
