@@ -56,6 +56,10 @@ class Personnages
     {
         echo $this->getNom(), " est mort !\n";
     }
+    public function DisplayStat($nom,$pvn,$Puissance){
+
+
+    }
 }
 
 class Hero extends Personnages
@@ -131,7 +135,8 @@ class Display
         $compt = 0;
         while ($compt == 0) {
             popen("cls", "w");
-            echo "Combat ", $current_combat, "\n\n", $allie->getNom(), " VS ", $enemie->getNom();
+            echo "Combat ", $current_combat ,"\n\n", $allie->getNom()," (PV :",$allie->getPv(),  ") VS ",
+                $enemie->getNom()," (PV :",$enemie->getPv(), ")";  
             echo "\n\nQue voulez vous faire ?\n\n1 - Attaquer\n2 - Esquiver\n3 - Abandonner\n";
             $choice = readline("> ");
             switch ($choice) {
