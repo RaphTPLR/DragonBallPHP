@@ -117,48 +117,89 @@ class Cell extends Vilain
         $this->puissance = 100;
         $this->pv = 100;
         $this->attaque_vilain = "";
+        // $this->attaques = [["pied", 23], ["point", 15]];
     }
 }
 
+class Display {
+    public function Combat($allie, $enemie, $current_combat) {
+        popen("cls", "w");
+        echo "Combat ", $current_combat ,"\n\n", $allie->getNom(), " VS ", $enemie->getNom();
+        echo "\n\nQue voulez vous faire ?\n\n1 - Attaquer\n2 - Esquiver\n3 - Abandonner\n";
+        $choice = readline("> ");
+        switch ($choice) {
+            case 1:
+                popen("cls","w");
+                echo "Combat ", $current_combat ,"\n\n", $allie->getNom(), " VS ", $enemie->getNom(), "\n\n";
+                sleep(1);
+        }
+    }
+}
+
+$jeu = new Display();
 $goku = new Goku();
 $vegeta = new Vegeta();
 $freezer = new Freezer();
 $cell = new Cell();
 
 $a = 0;
+$current_combat = 0;
 
 while ($a == 0) {
-    popen("cls", "w");
-    echo "Qui souhaites-tu voir ?\n1 - Goku\n2 - Vegeta\n3 - Freezer\n4 - Cell\n5 - Quitter\n\n";
+    echo popen("cls", "w");
+    echo "Que souhaites-tu faire ?\n\n1 - Jouer\n2 - Voir les personnages\n3 - Quitter\n";
     $choice = readline("> ");
     switch ($choice) {
         case 1:
-            popen("cls", "w");
-            echo $goku->getNom(), " attaque !\n\n", $freezer->getPv(), "\n", $goku->Attack($freezer), "\n";
-            echo $goku->getNom(), " attaque !\n\n", $freezer->getPv(), "\n", $goku->Attack($freezer), "\n";
-            readline("> ");
+            echo "Jouer";
+            while ($current_combat < 4) {
+                $current_combat++;
+                switch ($current_combat) {
+                    case 1: 
+                        $jeu->Combat($goku, $freezer, $current_combat);
+                }
+            }
             break;
         case 2:
             popen("cls", "w");
-            echo $vegeta->getNom();
-            sleep(1);
+            echo "Qui souhaites-tu voir ?\n1 - Goku\n2 - Vegeta\n3 - Freezer\n4 - Cell\n5 - Quitter\n\n";
+            $choice = readline("> ");
+            switch ($choice) {
+                case 1:
+                    popen("cls", "w");
+                    echo $goku->getNom(), "\n\nPV : ", $goku->getPv(), "\nPUISSANCE :", $goku->getPuissance(), "\n\n1 - Quitter\n";
+                    readline("> ");
+                    break;
+                case 2:
+                    popen("cls", "w");
+                    echo $vegeta->getNom(), "\n\nPV : ", $vegeta->getPv(), "\nPUISSANCE :", $vegeta->getPuissance(), "\n\n1 - Quitter\n";
+                    readline("> ");
+                    break;
+                case 3:
+                    popen("cls", "w");
+                    echo $freezer->getNom(), "\n\nPV : ", $freezer->getPv(), "\nPUISSANCE :", $freezer->getPuissance(), "\n\n1 - Quitter\n";
+                    readline("> ");
+                    break;
+                case 4:
+                    popen("cls", "w");
+                    echo $cell->getNom(), "\n\nPV : ", $cell->getPv(), "\nPUISSANCE :", $cell->getPuissance(), "\n\n1 - Quitter\n";
+                    readline("> ");
+                    break;
+                case 5:
+                    popen("cls", "w");
+                    $a = 1;
+                    break;
+                default:
+                    echo "Ce n'est pas disponible !\n";
+            }
             break;
         case 3:
-            popen("cls", "w");
-            echo $freezer->getNom();
-            sleep(1);
-            break;
-        case 4:
-            popen("cls", "w");
-            echo $cell->getNom();
-            sleep(1);
-            break;
-        case 5:
             popen("cls", "w");
             $a = 1;
             break;
         default:
-            echo "Ce n'est pas disponible !\n";
+            echo "Ce n'est pas disponible !";
+            break;
     }
 }
 ?>
