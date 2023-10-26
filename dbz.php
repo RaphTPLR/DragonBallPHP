@@ -91,8 +91,8 @@ class Goku extends Hero
         $this->puissance = 25;
         $this->pv = 100;
         $this->attaque_hero = "";
-        $this->attacks = [["coup de poing", $this->puissance], ["boule de feu", 50]];
-
+        $this->attacks = [["coup de poing", $this->puissance], ["kamehameha", 50]];
+        $this->bonus = [["genkidama"]];
     }
 }
 class Vegeta extends Hero
@@ -104,6 +104,8 @@ class Vegeta extends Hero
         $this->pv = 100;
         $this->attaque_hero = "";
         $this->attacks = [["coup de poing marteau", $this->puissance], ["canon garric", 50]];
+        $this->bonus = [["final flash"]];
+
     }
 }
 class Freezer extends Vilain
@@ -115,7 +117,11 @@ class Freezer extends Vilain
         $this->pv = 100;
         $this->attaque_vilain = "";
         $this->attacks = [["coup de queue", $this->puissance], ["boule de la mort", 50]];
+<<<<<<< HEAD
+        $this->bonus = [["supernova"]];
+=======
         $this->bonus = ["supernova", 95];
+>>>>>>> a504d8676f5d8b4b88217c7fadd7f6b9f69dd4bf
     }
 }
 class Cell extends Vilain
@@ -127,7 +133,7 @@ class Cell extends Vilain
         $this->pv = 100;
         $this->attaque_vilain = "";
         $this->attacks = [["coup de queue", $this->puissance], ["aspiration", 50]];
-    }
+        $this->bonus = [["super kamehameha"]];
 }
 
 class Display
