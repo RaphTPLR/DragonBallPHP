@@ -55,8 +55,41 @@
         $this->attaque_vilain = $Attaque_vilain;
     }
  }
+  class Goku extends Hero {
+    public function __construct() {
+        $this->nom = "Goku";
+        $this->puissance = 100;
+        $this->pv = 100;
+        $this->attaque_hero= "";
 
-
+    }
+  }
+  class Vegeta extends Hero {
+    public function __construct() {
+        $this->nom = "Vegeta";
+        $this->puissance = 100;
+        $this->pv = 100;
+        $this->attaque_hero = "";
+        
+    }
+  }
+  class Freezer extends Vilain {
+    public function __construct() {
+        $this->nom = "Freezer";
+        $this->puissance = 100 ;
+        $this->pv = 100;
+        $this->attaque_vilain = "";
+    }
+  }
+  class Cell extends Vilain {
+    public function __construct() {
+        $this->nom = "Cell";
+        $this->puissance = 100 ;
+        $this->pv = 100;
+        $this->attaque_vilain = "";
+    }
+  }
+  
 $vilain = new Vilain("Nom", 25, 200, "Feur");
 $vilain->getNom();
 ?>
