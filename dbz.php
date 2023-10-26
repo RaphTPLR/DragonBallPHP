@@ -5,6 +5,7 @@ class Personnages
     protected $Puissance;
     protected $pv;
     protected $attacks;
+    protected $bonus;
 
     public function __construct($Nom, $Puissance, $Pv)
     {
@@ -114,6 +115,7 @@ class Freezer extends Vilain
         $this->pv = 100;
         $this->attaque_vilain = "";
         $this->attacks = [["coup de queue", $this->puissance], ["boule de la mort", 50]];
+        $this->bonus = ["supernova", 95];
     }
 }
 class Cell extends Vilain
