@@ -2,14 +2,16 @@
 class Personnages
 {
     protected $nom;
-    protected $puissance;
+    protected $Puissance;
     protected $pv;
+    protected $attacks;
 
     public function __construct($Nom, $Puissance, $Pv)
     {
         $this->nom = $Nom;
         $this->puissance = $Puissance;
         $this->pv = $Pv;
+        $this->attacks = array();
     }
 
     public function getNom()
@@ -82,9 +84,10 @@ class Goku extends Hero
     public function __construct()
     {
         $this->nom = "Goku";
-        $this->puissance = 50;
+        $this->puissance = 25;
         $this->pv = 100;
         $this->attaque_hero = "";
+        $this->attacks = [["coup de poing ",$this->puissance],["boule de feu", 50]];
 
     }
 }
@@ -96,7 +99,7 @@ class Vegeta extends Hero
         $this->puissance = 100;
         $this->pv = 100;
         $this->attaque_hero = "";
-
+        $this->attacks = [["coup de poing marteau ",$this->puissance],[" canon garric", 50]];
     }
 }
 class Freezer extends Vilain
@@ -107,6 +110,7 @@ class Freezer extends Vilain
         $this->puissance = 100;
         $this->pv = 100;
         $this->attaque_vilain = "";
+        $this->attacks = [[" coup de queue ",$this->puissance],["boule de la mort"50]];
     }
 }
 class Cell extends Vilain
@@ -117,6 +121,7 @@ class Cell extends Vilain
         $this->puissance = 100;
         $this->pv = 100;
         $this->attaque_vilain = "";
+        $this->attacks = [["coup de queue ",$this->puissance],["aspiration ", 50]];
     }
 }
 
