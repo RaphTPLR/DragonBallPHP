@@ -57,6 +57,10 @@ class Personnages
     {
         echo $personnage->getNom(), " est mort !\n";
     }
+    public function DisplayStat($nom,$pvn,$Puissance){
+
+
+    }
 }
 
 class Hero extends Personnages
@@ -110,7 +114,7 @@ class Freezer extends Vilain
         $this->puissance = 100;
         $this->pv = 100;
         $this->attaque_vilain = "";
-        $this->attacks = [[" coup de queue ",$this->puissance],["boule de la mort"50]];
+        $this->attacks = [[" coup de queue ",$this->puissance],["boule de la mort",50]];
     }
 }
 class Cell extends Vilain
@@ -127,16 +131,19 @@ class Cell extends Vilain
 
 class Display {
     public function Combat($allie, $enemie, $current_combat) {
+        echo  $current_combat ,"nom :",$allie->getNom(), "pv :", $allie->getPv(), "puissance",$allie->getPuissance();  
         popen("cls", "w");
-        echo "Combat ", $current_combat ,"\n\n", $allie->getNom(), " VS ", $enemie->getNom();
-        echo "\n\nQue voulez vous faire ?\n\n1 - Attaquer\n2 - Esquiver\n3 - Abandonner\n";
+        
+        echo "Combat ", $current_combat ,"\n\n", $allie->getNom()," pv :",$allie->getPv(),  " VS ",
+             $enemie->getNom()," pv :",$enemie->getPv();
+        echo "\n\nQue voulez vous faire ?\n\n1 - Attaquer\n2 - Esquiver\n3 -  Abandonner\n";
         $choice = readline("> ");
         switch ($choice) {
             case 1:
                 popen("cls","w");
                 echo "Combat ", $current_combat ,"\n\n", $allie->getNom(), " VS ", $enemie->getNom(), "\n\n";
                 sleep(1);
-        }
+        }     
     }
 }
 
