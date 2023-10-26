@@ -34,9 +34,13 @@ class Personnages
         $this->pv = $newPv;
     }
 
-    public function Attack($enemie)
+    public function getAttacks()
     {
-        $attack = $this->getPuissance();
+        return $this->attacks;
+    }
+
+    public function Attack($enemie, $attack)
+    {
         $pv = $enemie->getPv();
         $this->PrendreDegats($pv, $attack, $enemie);
     }
@@ -44,18 +48,13 @@ class Personnages
     public function PrendreDegats($pv, $attack, $enemie)
     {
         $update = $pv - $attack;
-        if ($update > 0) {
             $enemie->setPv($update);
-            echo "Il ne te reste plus que ", $enemie->getPv(), " PV à ", $enemie->getNom(), "!\n";
-        } else {
-            $this->Mourir($enemie);
-        }
-
+            echo "\nIl ne reste plus que ", $enemie->getPv(), " PV à ", $enemie->getNom(), "!\n";
     }
 
-    public function Mourir($personnage)
+    public function Mourir()
     {
-        echo $personnage->getNom(), " est mort !\n";
+        echo $this->getNom(), " est mort !\n";
     }
 }
 
@@ -87,7 +86,7 @@ class Goku extends Hero
         $this->puissance = 25;
         $this->pv = 100;
         $this->attaque_hero = "";
-        $this->attacks = [["coup de poing ",$this->puissance],["boule de feu", 50]];
+        $this->attacks = [["coup de poing", $this->puissance], ["boule de feu", 50]];
 
     }
 }
@@ -99,7 +98,7 @@ class Vegeta extends Hero
         $this->puissance = 100;
         $this->pv = 100;
         $this->attaque_hero = "";
-        $this->attacks = [["coup de poing marteau ",$this->puissance],[" canon garric", 50]];
+        $this->attacks = [["coup de poing marteau", $this->puissance], ["canon garric", 50]];
     }
 }
 class Freezer extends Vilain
@@ -107,10 +106,10 @@ class Freezer extends Vilain
     public function __construct()
     {
         $this->nom = "Freezer";
-        $this->puissance = 100;
+        $this->puissance = 1;
         $this->pv = 100;
         $this->attaque_vilain = "";
-        $this->attacks = [[" coup de queue ",$this->puissance],["boule de la mort"50]];
+        $this->attacks = [["coup de queue", $this->puissance], ["boule de la mort", 50]];
     }
 }
 class Cell extends Vilain
@@ -121,21 +120,65 @@ class Cell extends Vilain
         $this->puissance = 100;
         $this->pv = 100;
         $this->attaque_vilain = "";
-        $this->attacks = [["coup de queue ",$this->puissance],["aspiration ", 50]];
+        $this->attacks = [["coup de queue", $this->puissance], ["aspiration", 50]];
     }
 }
 
-class Display {
-    public function Combat($allie, $enemie, $current_combat) {
-        popen("cls", "w");
-        echo "Combat ", $current_combat ,"\n\n", $allie->getNom(), " VS ", $enemie->getNom();
-        echo "\n\nQue voulez vous faire ?\n\n1 - Attaquer\n2 - Esquiver\n3 - Abandonner\n";
-        $choice = readline("> ");
-        switch ($choice) {
-            case 1:
-                popen("cls","w");
-                echo "Combat ", $current_combat ,"\n\n", $allie->getNom(), " VS ", $enemie->getNom(), "\n\n";
-                sleep(1);
+class Display
+{
+    public function Combat($allie, $enemie, $current_combat)
+    {
+        $compt = 0;
+        while ($compt == 0) {
+            popen("cls", "w");
+            echo "Combat ", $current_combat, "\n\n", $allie->getNom(), " VS ", $enemie->getNom();
+            echo "\n\nQue voulez vous faire ?\n\n1 - Attaquer\n2 - Esquiver\n3 - Abandonner\n";
+            $choice = readline("> ");
+            switch ($choice) {
+                case 1 :
+                    for ($i = 0; $i < $current_combat; $i++) {
+                            popen("cls", "w");
+                            echo "Combat ", $current_combat, "\n\n", $allie->getNom(), " VS ", $enemie->getNom(), "\n\n";
+
+                            for ($i = 0; $i < count($allie->getAttacks()); $i++) {
+                                echo $i + 1, " - ", $allie->getAttacks()[$i][0], " (", $allie->getAttacks()[$i][1], ")\n";
+                            }
+
+                            echo "\nQuelle attaque souhaites-tu faire ?\n";
+                            $choice = readline("> ");
+
+                            popen("cls", "w");
+                            echo $allie->getNom(), " utilise ", $allie->getAttacks()[$choice - 1][0], " !\n", $allie->getNom(), " à infligé ",
+                                $allie->getAttacks()[$choice - 1][1], " à ", $enemie->getNom();
+                            $allie->Attack($enemie, $allie->getAttacks()[$choice - 1][1]);
+
+                            if ($enemie->getPv() > 0) {
+                                $enemie->Attack($allie, $enemie->getAttacks()[$choice - 1][1]);
+                            }
+
+                            sleep(1);                            
+
+                            if ($allie->getPv() <= 0) {
+                                popen("cls", "w");
+                                $allie->Mourir();
+                                sleep(1);
+                                $compt = 1;
+                            } else if ($enemie->getPv() <= 0) {
+                                popen("cls", "w");
+                                $enemie->Mourir();
+                                sleep(1);
+                                $compt = 1;
+                            }
+                    }
+                    break;
+                case 2 :
+                    echo "Esquive !\n";
+                    break;
+                case 3 :
+                    break;
+                default :
+                    echo "Ceci n'est pas disponible !\n";
+            }
         }
     }
 }
@@ -147,20 +190,27 @@ $freezer = new Freezer();
 $cell = new Cell();
 
 $a = 0;
-$current_combat = 0;
 
 while ($a == 0) {
     echo popen("cls", "w");
     echo "Que souhaites-tu faire ?\n\n1 - Jouer\n2 - Voir les personnages\n3 - Quitter\n";
     $choice = readline("> ");
+    $current_combat = 0;
     switch ($choice) {
         case 1:
             echo "Jouer";
             while ($current_combat < 4) {
                 $current_combat++;
                 switch ($current_combat) {
-                    case 1: 
+                    case 1:
                         $jeu->Combat($goku, $freezer, $current_combat);
+                        break;
+                    case 2:
+                        $jeu->Combat($vegeta, $cell, $current_combat);
+                        break;
+                    case 3:
+                        echo "combat 3";
+                        break;
                 }
             }
             break;
