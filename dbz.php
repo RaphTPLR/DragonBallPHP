@@ -132,6 +132,11 @@ class Cell extends Vilain
 
 class Display
 {
+    private $victoire;
+    public function __construct() {
+        $this->victoire = 0;
+    }
+
     public function Combat($allie, $enemie, $current_combat)
     {
         $compt = 0;
@@ -187,6 +192,31 @@ class Display
                     echo "Ceci n'est pas disponible !\n";
             }
         }
+
+        $this->setVictoire($this->getVictoire() + 1);
+    }
+
+    public function getVictoire() {
+        return $this->victoire;
+    }
+
+    public function setVictoire($newVictoire) {
+        $this->victoire = $newVictoire;
+    }
+
+    public function verifVictoire() {
+        if ($this->getVictoire() > 10) {
+            popen("cls","w");
+            echo "Tu as finis le jeu !\n\nPress 1 pour fermer la partie\n";
+            $choice = readline("> ");
+            switch ($choice) {
+                case 1 :
+                    die(0);
+                default :
+                    echo "Cela n'est pas disponible !";
+                    break;
+            }
+        };
     }
 }
 
@@ -200,12 +230,11 @@ $a = 0;
 
 while ($a == 0) {
     echo popen("cls", "w");
-    echo "Que souhaites-tu faire ?\n\n1 - Jouer\n2 - Voir les personnages\n3 - Quitter\n";
+    echo "Que souhaites-tu faire ?\n\n1 - Jouer\n2 - Voir les personnages\n3 - Règle\n4 - Quitter";
     $choice = readline("> ");
     $current_combat = 0;
     switch ($choice) {
         case 1:
-            echo "Jouer";
             while ($current_combat < 4) {
                 $current_combat++;
                 switch ($current_combat) {
@@ -220,6 +249,8 @@ while ($a == 0) {
                         break;
                 }
             }
+
+            $jeu->verifVictoire();
             break;
         case 2:
             popen("cls", "w");
@@ -255,6 +286,11 @@ while ($a == 0) {
             }
             break;
         case 3:
+            popen("cls", "w");
+            echo "Bienvenue sur le jeu Dragon Ball\n\nRemporte 10 victoires afin de terminer le jeu !\n\nBonne chance,\n\nPress une touche\n";
+            readline("> ");
+            break;
+        case 4:
             popen("cls", "w");
             $a = 1;
             break;
