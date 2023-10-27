@@ -9,6 +9,7 @@ class Personnages
     protected $default_pv;
     protected $attacks;
     protected $bonus;
+    protected $personal_combat;
 
     // MAIN CONSTRUCT
     public function __construct($Nom, $Puissance, $Pv)
@@ -17,6 +18,7 @@ class Personnages
         $this->puissance = $Puissance;
         $this->pv = $Pv;
         $this->attacks = array();
+        $this->personal_combat = 0;
     }
 
     // GET AND SET FOR ALMOST ALL VARIABLES
@@ -67,6 +69,14 @@ class Personnages
     public function getDefaultPV()
     {
         return $this->default_pv;
+    }
+
+    public function getPersoCombat() {
+        return $this->personal_combat;
+    }
+
+    public function setPersoCombat($newPersoCombat) {
+        $this->personal_combat = $newPersoCombat;
     }
 
     // ATTACK FUNCTION IN WHICH YOU RECOVER THE ENEMY'S PV AND CALL UP PRENDREDEGATS FUNCTION AND TAKES THE ENEMY AND HIS ATTACK AS AN ARGUMENT
@@ -322,6 +332,14 @@ class Display
                         echo "\nQuelle attaque souhaites-tu faire ?\n";
                         $choice = readline("> ");
 
+                        // IF USER CHOOSE UNEXISTANT ATTACKS
+                        // if ($choice >= count($allie->getAttacks())) {
+                        //     popen("cls", "w");
+                        //     echo "Cette attaque n'existe pas ! Tu passes ton tour !\n";
+                        //     sleep(1);
+                        //     break;
+                        // }
+
                         // CHOICE OF ATTACK, DAMAGE AND DISPLAY OF ADDAPTED TEXT FOR CHOICE
                         popen("cls", "w");
                         echo $allie->getNom(), " utilise \e[0;31m", $allie->getAttacks()[$choice - 1][0], " !\e[0m\n\n", $allie->getNom(), " à infligé \e[0;31m",
@@ -420,6 +438,12 @@ class Display
             }
         }
 
+        // IF IT'S THE FIRST FIGHT WITH THE CHARACTER, PERSONAL COMBAT = 1 AND CHARACTER EARN HIS SPECIAL ATTACK
+        if ($allie->getPersoCombat == 0) {
+            $allie->setPersoCombat(1);
+        }
+
+        // UPDATE COMBAT
         $this->setCombat($this->getCombat() + 1);
         if ($compt == 0) {
             return;
@@ -573,7 +597,7 @@ while ($jeu->getCombat() <= 10) {
                         $jeu->Combat($allie1, $enemie1, $current_combat);
 
                         // IF IT'S THE FIRST FIGHT, ALLIE EARN NEW ATTACK FOR THE NEXT FIGHT SERIE
-                        if ($jeu->getCombat() == 1) {
+                        if ($allie1->getPersoCombat() == 1) {
                             $allie1->setAttacks($allie1->getBonus());
                         }
 
@@ -582,7 +606,7 @@ while ($jeu->getCombat() <= 10) {
                         // SAME AS CASE 1
                         $jeu->Combat($allie2, $enemie2, $current_combat);
 
-                        if ($jeu->getCombat() == 2) {
+                        if ($allie2->getPersoCombat() == 1) {
                             $allie2->setAttacks($allie2->getBonus());
                         }
 
@@ -591,7 +615,7 @@ while ($jeu->getCombat() <= 10) {
                         // SAME AS CASE 1 & 2
                         $jeu->Combat($allie3, $enemie3, $current_combat);
 
-                        if ($jeu->getCombat() == 3) {
+                        if ($allie3->getPersoCombat() == 1) {
                             $allie3->setAttacks($allie3->getBonus());
                         }
 
