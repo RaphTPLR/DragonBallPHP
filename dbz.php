@@ -169,7 +169,7 @@ class Gohan extends Hero
         $this->puissance = 20;
         $this->pv = 210;
         $this->default_pv = 200;
-        $this->attacks = [["Enchainement Saiyan Hybride",["Boule d'energie", 50] ,$this->puissance],["Mazenko", 75]];
+        $this->attacks = [["Enchainement Saiyan Hybride", $this->puissance], ["Boule d'energie", 50], ["Mazenko", 75]];
         $this->bonus = ["Kamehameha Pere-Fils", 190];
     }     
     
@@ -459,8 +459,8 @@ $gohan = new Gohan();
 $buu = new Buu();
 $trunks = new Trunks();
 $broly = new Broly();
-$list_normal = [$goku, $vegeta, $freezer, $cell, $satan, $gohan, $trunks, $broly];
-$list_speciale = [$goku, $vegeta, $freezer, $cell, $satan, $beerus, $gohan, $trunks, $broly];
+$list_normal = [$goku, $vegeta, $freezer, $cell, $satan, $gohan, $buu, $trunks, $broly];
+$list_speciale = [$goku, $vegeta, $freezer, $cell, $satan, $beerus, $gohan, $buu, $trunks, $broly];
 
 // LOOPS OF THE GAME
 while ($jeu->getCombat() <= 10) {
@@ -475,22 +475,59 @@ while ($jeu->getCombat() <= 10) {
         case 1:
             popen("cls","w");
 
-            $rand1 = random_int(0, count($list_normal)-1);
-            $rand3 = random_int(0, count($list_normal)-1);
-            $rand2 = random_int(0, count($list_normal)-1);
+            // CREATE RANDOM ENEMIES WITH THE VILAIN LIST
+            $rand1 = random_int(0, count($list_speciale)-1);
+            $rand3 = random_int(0, count($list_speciale)-1);
+            $rand2 = random_int(0, count($list_speciale)-1);
             while ($rand2 == $rand1) { 
-                $rand2 = random_int(0, count($list_normal)-1);
+                $rand2 = random_int(0, count($list_speciale)-1);
             }
             while ($rand3 == $rand1 && $rand3 == $rand2) { 
-                $rand3 = random_int(0, count($list_normal)-1);
+                $rand3 = random_int(0, count($list_speciale)-1);
             }
 
-            $enemie1 = $list_normal[$rand1];
-            $enemie2 = $list_normal[$rand2];
-            $enemie3 = $list_normal[$rand3];
+            $enemie1 = $list_speciale[$rand1];
+            $enemie2 = $list_speciale[$rand2];
+            $enemie3 = $list_speciale[$rand3];
 
-            // echo "Comment souhaites-tu faire ton équipe ?\n\n1 - Aléatoirement\n2 - Choisir les 3 personnages\n3 - Quitter\n";
-            // $choice = readline("> ");
+            echo "Comment souhaites-tu faire ton équipe ?\n\n1 - Aléatoirement\n2 - Choisir les 3 personnages\n3 - Quitter\n";
+            $choice = readline("> ");
+            switch ($choice) {
+                case 1 :
+                    popen("cls","w");
+                        $rand1 = random_int(0, count($list_normal)-1);
+                        $rand3 = random_int(0, count($list_normal)-1);
+                        $rand2 = random_int(0, count($list_normal)-1);
+
+                        while ($rand2 == $rand1) { 
+                            $rand2 = random_int(0, count($list_normal)-1);
+                        }
+                        while ($rand3 == $rand1 && $rand3 == $rand2) { 
+                            $rand3 = random_int(0, count($list_normal)-1);
+                        }
+
+                        $allie1 = $list_normal[$rand1];
+                        $allie2 = $list_normal[$rand2];
+                        $allie3 = $list_normal[$rand3];
+                    break;
+                case 2 :
+                    popen("cls","w");
+                    for ($i = 0; $i < count($list_normal); $i++) {
+                        echo $i + 1, " - ", $list_normal[$i]->getNom(), "\n";
+                    }
+                    echo "\n";
+                    $choice = readline("Personnage 1 >");
+                    $allie1 = $list_normal[$choice - 1];
+                    $choice = readline("Personnage 2 >");
+                    $allie2 = $list_normal[$choice - 1];
+                    $choice = readline("Personnage 3 >");
+                    $allie3 = $list_normal[$choice - 1];
+                    break;
+                case 3 :
+                    popen("cls","w");
+                    break;
+            }
+
             // WHEN CURRENT_COMBAT = 4 THEN THE FIGHT SERIE IS FINISHED
             while ($current_combat < 4) {
                 // GIVE UP GESTION
@@ -501,37 +538,37 @@ while ($jeu->getCombat() <= 10) {
                 switch ($current_combat) {
                     case 1:
                         // CALL OF COMBAT FONCTION
-                        $jeu->Combat($goku, $enemie1, $current_combat);
+                        $jeu->Combat($allie1, $enemie1, $current_combat);
 
                         // IF IT'S THE FIRST FIGHT, ALLIE EARN NEW ATTACK FOR THE NEXT FIGHT SERIE
                         if ($jeu->getCombat() == 1) {
-                            $goku->setAttacks($goku->getBonus());
+                            $allie1->setAttacks($allie1->getBonus());
                         }
 
                         break;
                         case 2:
                             // SAME AS CASE 1
-                            $jeu->Combat($vegeta, $enemie2, $current_combat);
+                            $jeu->Combat($allie2, $enemie2, $current_combat);
                             
                             if ($jeu->getCombat() == 2) {
-                                $vegeta->setAttacks($vegeta->getBonus());
+                                $allie2->setAttacks($allie2->getBonus());
                             }
                             
                             break;
                             case 3:
                                 // SAME AS CASE 1 & 2
-                                $jeu->Combat($trunks, $enemie3, $current_combat);
+                                $jeu->Combat($allie3, $enemie3, $current_combat);
                                 
                                 if ($jeu->getCombat() == 3) {
-                                    $trunks->setAttacks($trunks->getBonus());
+                                    $allie3->setAttacks($allie3->getBonus());
                                 }
                                 
                                 break;
                             }
                             
-                    $goku->setPv($goku->getDefaultPV());
-                    $vegeta->setPv($vegeta->getDefaultPV());
-                    $trunks->setPv($trunks->getDefaultPV());
+                    $allie1->setPv($allie1->getDefaultPV());
+                    $allie2->setPv($allie2->getDefaultPV());
+                    $allie3->setPv($allie3->getDefaultPV());
                     $enemie1->setPv($enemie1->getDefaultPV());
                     $enemie2->setPv($enemie2->getDefaultPV());
                     $enemie3->setPv($enemie3->getDefaultPV());
