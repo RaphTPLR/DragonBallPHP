@@ -168,7 +168,7 @@ class Satan extends Hero
     }     
     
 }
-class Beerus extends Hero
+class Beerus extends Vilain
 {
 
     public function __construct() {
@@ -176,7 +176,7 @@ class Beerus extends Hero
         $this->puissance = 30;
         $this->pv = 100;
         $this->default_pv = 100;
-        $this->attaque_hero = [["Coup Divin", 100]];
+        $this->attacks = [["Coup Divin", 999]];
         $this->bonus = ["Hakai", 999];
     }     
     
@@ -265,7 +265,6 @@ class Display
                                 $rand = random_int(1, 2);
                                 echo $enemie->getNom(), " utilise ", $enemie->getAttacks()[$rand - 1][0], " !\n\n", $enemie->getNom(), " à infligé ",
                                 $enemie->getAttacks()[$rand - 1][1], " à ", $allie->getNom();
-
                                 $enemie->Attack($allie, $enemie->getAttacks()[$rand - 1][1]);
 
                                 sleep(2);
@@ -288,6 +287,7 @@ class Display
                     break;
                 case 2 :
                     popen("cls", "w");
+                    if ($enemie->getnom()!= "Beerus"){
                     echo $allie->getNom() ," esquive !\n";
                     sleep(2);
 
@@ -297,6 +297,11 @@ class Display
                     echo $enemie->getNom(), " utilise ", $enemie->getAttacks()[$rand - 1][0], " !\n\nMais ", $allie->getNom(), " à esquivé !\n\n" ,
                         $enemie->getNom(), " à infligé 0 de dégats à ", $allie->getNom();
                     sleep(2);
+                    }
+                   elseif ($enemie->getNom()== "Beerus"){
+                        echo" l'esquive de: ", $allie->getNom();
+                        sleep(2);
+                    }
                     break;
                 case 3 :
                     return $abandon = true;
@@ -382,7 +387,7 @@ while ($a == 0) {
                 $current_combat++;
                 switch ($current_combat) {
                     case 1:
-                        $jeu->Combat($goku, $freezer, $current_combat);
+                        $jeu->Combat($goku, $beerus, $current_combat);
                         if ($jeu->getCombat() == 1) {
                             $goku->setAttacks($goku->getBonus());
                         }
