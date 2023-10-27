@@ -41,11 +41,13 @@ class Personnages
         return $this->attacks;
     }
 
-    public function setAttacks($newAttacks) {
+    public function setAttacks($newAttacks)
+    {
         array_push($this->attacks, $newAttacks);
     }
 
-    public function getBonus() {
+    public function getBonus()
+    {
         return $this->bonus;
     }
 
@@ -58,13 +60,13 @@ class Personnages
     public function PrendreDegats($pv, $attack, $enemie)
     {
         $update = $pv - $attack;
-            $enemie->setPv($update);
-            echo "\nIl ne reste plus que ", $enemie->getPv(), " PV à ", $enemie->getNom(), "!\n";
+        $enemie->setPv($update);
+        echo "\nIl ne reste plus que ", $enemie->getPv(), " PV à ", $enemie->getNom(), "!\n";
     }
 
     public function Mourir()
     {
-        echo $this->getNom(), " est mort !\n";
+        echo "\e[0;31m", $this->getNom(), " est mort !\e[0m\n";
     }
 }
 
@@ -145,7 +147,8 @@ class Cell extends Vilain
 class Gohan extends Hero
 {
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->nom = "Gohan";
         $this->puissance = 20;
         $this->pv = 210;
@@ -158,33 +161,36 @@ class Gohan extends Hero
 class Satan extends Hero
 {
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->nom = "Satan";
         $this->puissance = 1;
         $this->pv = 1;
         $this->default_pv = 1;
         $this->attacks = [["coup en traitre",$this->puissance],["lancer de cannette",50],["Feu D'artifice", 2]];
         $this->bonus = ["Lance-Rocket", 5];
-    }     
-    
+    }
+
 }
 class Beerus extends Vilain
 {
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->nom = "Beerus";
         $this->puissance = 999;
         $this->pv = 999;
         $this->default_pv = 999;
         $this->attacks = [["Coup Divin", 999]];
         $this->bonus = ["Hakai", 999];
-    }     
-    
+    }
+
 }
 class Buu extends Vilain
 {
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->nom = "Buu";
         $this->puissance = 20;
         $this->pv = 600;
@@ -197,7 +203,8 @@ class Buu extends Vilain
 class Trunks extends Hero
 {
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->nom = "Trunks";
         $this->puissance = 20;
         $this->pv = 200;
@@ -210,7 +217,8 @@ class Trunks extends Hero
 class Broly extends Vilain
 {
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->nom = "Broly";
         $this->puissance = 20;
         $this->pv = 400;
@@ -224,7 +232,8 @@ class Display
     private $victoire;
     private $defaite;
     private $combat;
-    public function __construct() {
+    public function __construct()
+    {
         $this->victoire = 0;
         $this->defaite = 0;
         $this->combat = 0;
@@ -236,135 +245,170 @@ class Display
         $compt = 0;
         while ($compt == 0) {
             popen("cls", "w");
-            echo "Combat ", $current_combat ,"\n\n", $allie->getNom()," (PV :",$allie->getPv(),  ") VS ",
-                $enemie->getNom()," (PV :",$enemie->getPv(), ")";  
+            echo "\e[0;34mCombat ", $current_combat, "\n\n", $allie->getNom(), " (PV :", $allie->getPv(), ") \e[0mVS \e[0;31m",
+                $enemie->getNom(), " (PV :", $enemie->getPv(), ")\e[0m\n";
+            sleep(1);
+            popen("cls", "w");
+            echo "Combat ", $current_combat, "\n\n\e[0;34m", $allie->getNom(), " (PV :", $allie->getPv(), ") \e[0mVS \e[0;31m",
+                $enemie->getNom(), " (PV :", $enemie->getPv(), ")\e[0m\n";
+            sleep(1);
             echo "\n\nQue voulez vous faire ?\n\n1 - Attaquer\n2 - Esquiver\n3 - Abandonner\n";
             $choice = readline("> ");
             switch ($choice) {
-                case 1 :
+                case 1:
                     for ($i = 0; $i < $current_combat; $i++) {
+                        popen("cls", "w");
+                        echo "\e[0;34mCombat ", $current_combat, "\n\n", $allie->getNom(), " (PV :", $allie->getPv(), ") VS ",
+                            $enemie->getNom(), " (PV :", $enemie->getPv(), ")\e[0m\n\n";
+
+                        for ($i = 0; $i < count($allie->getAttacks()); $i++) {
+                            echo $i + 1, " - ", $allie->getAttacks()[$i][0], " (", $allie->getAttacks()[$i][1], ")\n";
+                        }
+
+                        echo "\nQuelle attaque souhaites-tu faire ?\n";
+                        $choice = readline("> ");
+
+                        popen("cls", "w");
+                        echo $allie->getNom(), " utilise \e[0;31m", $allie->getAttacks()[$choice - 1][0], " !\e[0m\n\n", $allie->getNom(), " à infligé \e[0;31m",
+                            $allie->getAttacks()[$choice - 1][1], "\e[0m à ", $enemie->getNom();
+
+                        $allie->Attack($enemie, $allie->getAttacks()[$choice - 1][1]);
+                        sleep(2);
+
+                        if ($enemie->getPv() > 0) {
                             popen("cls", "w");
-                            echo "Combat ", $current_combat, "\n\n", $allie->getNom(), " VS ", $enemie->getNom(), "\n\n";
-                            for ($i = 0; $i < count($allie->getAttacks()); $i++) {
-                                echo $i + 1, " - ", $allie->getAttacks()[$i][0], " (", $allie->getAttacks()[$i][1], ")\n";
+                            $rand = random_int(1, count($enemie->getAttacks()) + 1);
+
+                            if ($rand <= count($enemie->getAttacks())) {
+                                echo $enemie->getNom(), " utilise \e[0;31m", $enemie->getAttacks()[$rand - 1][0], " !\e[0m\n\n", $enemie->getNom(), " à infligé \e[0;31m",
+                                    $enemie->getAttacks()[$rand - 1][1], "\e[0m à ", $allie->getNom();
+
+                                $enemie->Attack($allie, $enemie->getAttacks()[$rand - 1][1]);
+                            } else if ($rand == count($enemie->getAttacks()) + 1) {
+                                echo "\e[0;33m", $enemie->getNom(), " à esquivé l'attaque de ", $allie->getNom(), "!\e[0m\n";
+                                $enemie->setPv($enemie->getPv() + $allie->getAttacks()[$choice - 1][1]);
                             }
 
-                            echo "\nQuelle attaque souhaites-tu faire ?\n";
-                            $choice = readline("> ");
+                            sleep(2);
+                        }
 
+                        if ($allie->getPv() <= 0) {
                             popen("cls", "w");
-                            echo $allie->getNom(), " utilise ", $allie->getAttacks()[$choice - 1][0], " !\n\n", $allie->getNom(), " à infligé ",
-                                $allie->getAttacks()[$choice - 1][1], " à ", $enemie->getNom();
-
-                            $allie->Attack($enemie, $allie->getAttacks()[$choice - 1][1]);
-                            sleep(2);                            
-
-                            if ($enemie->getPv() > 0) {
-                                popen("cls", "w");
-                                $rand = random_int(1, count($enemie->getAttacks()) + 1);
-
-                                if ($rand < count($enemie->getAttacks())) {
-                                    echo $enemie->getNom(), " utilise ", $enemie->getAttacks()[$rand - 1][0], " !\n\n", $enemie->getNom(), " à infligé ",
-                                    $enemie->getAttacks()[$rand - 1][1], " à ", $allie->getNom();
-    
-                                    $enemie->Attack($allie, $enemie->getAttacks()[$rand - 1][1]);
-                                } else if ($rand == count($enemie->getAttacks())) { 
-                                    echo $enemie->getNom(), " à esquivé l'attaque de ", $allie->getNom(), "!\n";
-                                    $enemie->setPv($enemie->getPv() + $allie->getAttacks()[$choice - 1][1]);
-                                }
-
-                                sleep(2);
-                            }
-
-                            if ($allie->getPv() <= 0) {
-                                popen("cls", "w");
-                                $allie->Mourir();
-                                $this->setDefaite($this->getDefaite() + 1);
-                                sleep(1);
-                                $compt = 1;
-                            } else if ($enemie->getPv() <= 0) {
-                                popen("cls", "w");
-                                $enemie->Mourir();
-                                $this->setDefaite($this->getDefaite() + 1);
-                                sleep(1);
-                                $compt = 1;
-                            }
+                            $allie->Mourir();
+                            $this->setDefaite($this->getDefaite() + 1);
+                            sleep(1);
+                            $compt = 1;
+                        } else if ($enemie->getPv() <= 0) {
+                            popen("cls", "w");
+                            $enemie->Mourir();
+                            $this->setVictoire($this->getVictoire() + 1);
+                            sleep(1);
+                            $compt = 1;
+                        }
                     }
                     break;
-                case 2 :
-                    popen("cls", "w");
-                    if ($enemie->getnom()!= "Beerus" && "Buu"){
-                    echo $allie->getNom() ," esquive !\n";
-                    sleep(2);
-
+                case 2:
                     popen("cls", "w");
                     $rand = random_int(1, count($enemie->getAttacks()));
-                    if ($rand < count($enemie->getAttacks())) {
-                        echo $enemie->getNom(), " utilise ", $enemie->getAttacks()[$rand - 1][0], " !\n\nMais ", $allie->getNom(), " à esquivé !\n\n" ,
-                            $enemie->getNom(), " à infligé 0 de dégats à ", $allie->getNom();
-                    } else if ($rand == count($enemie->getAttacks())) {
-                        echo $enemie->getNom()," à esquivé aussi !\n";
-                    }
-                    sleep(2);
-                    }
-                   else if ($enemie->getNom()== "Beerus" && "Buu"){
-                        echo" l'esquive de: ", $allie->getNom()," a raté ";
+                    if ($enemie->getnom() != "Beerus") {
+                        echo "\e[0;33m", $allie->getNom(), " esquive !\e[0m\n";
+                        sleep(2);
+
+                        popen("cls", "w");
+                        if ($rand <= count($enemie->getAttacks())) {
+                            echo $enemie->getNom(), " utilise \e[0;31m", $enemie->getAttacks()[$rand - 1][0], " !\e[0m\n\nMais ", $allie->getNom(), " à esquivé !\n\n",
+                                $enemie->getNom(), " à infligé\e[0;31m 0\e[0m de dégats à ", $allie->getNom();
+
+                        } else if ($rand == count($enemie->getAttacks()) + 1) {
+                            echo "\e[0;33m", $enemie->getNom(), " à esquivé aussi !\e[0m\n";
+                        }
+                        sleep(2);
+                    } else if ($enemie->getNom() == "Beerus") {
+                        echo "\e[0;33mL'esquive de ", $allie->getNom(), " a été annulée !\e[0m\n";
+                        sleep(2);
+                        popen("cls", "w");
+
+                        if ($rand <= count($enemie->getAttacks())) {
+                            echo $enemie->getNom(), " utilise \e[0;31m", $enemie->getAttacks()[$rand - 1][0], " !\e[0m\n\n", $enemie->getNom(), " à infligé \e[0;31m",
+                                $enemie->getAttacks()[$rand - 1][1], "\e[0m à ", $allie->getNom();
+
+                            $enemie->Attack($allie, $enemie->getAttacks()[$rand - 1][1]);
+                        } else if ($rand == count($enemie->getAttacks()) + 1) {
+                            echo "\e[0;33m", $enemie->getNom(), " à esquivé l'attaque de ", $allie->getNom(), "!\e[0m\n";
+                            $enemie->setPv($enemie->getPv() + $allie->getAttacks()[$choice - 1][1]);
+                        }
                         sleep(2);
                     }
 
+                    if ($allie->getPv() <= 0) {
+                        popen("cls", "w");
+                        $allie->Mourir();
+                        $this->setDefaite($this->getDefaite() + 1);
+                        sleep(1);
+                        $compt = 1;
+                    } else if ($enemie->getPv() <= 0) {
+                        $this->setVictoire($this->getVictoire() + 1);
+                    }
                     break;
-                case 3 :
+                case 3:
                     return $abandon = true;
-                    default :
-                    echo "Ceci n'est pas disponible !\n";
+                default:
+                    echo "\e[0;31mCeci n'est pas disponible !\e[0m\n";
             }
         }
-                    
+
         $this->setCombat($this->getCombat() + 1);
         if ($compt == 0) {
             return;
         }
 
-        $this->setVictoire($this->getVictoire() + 1);
     }
 
-    public function getVictoire() {
+    public function getVictoire()
+    {
         return $this->victoire;
     }
 
-    public function setVictoire($newVictoire) {
+    public function setVictoire($newVictoire)
+    {
         $this->victoire = $newVictoire;
     }
 
-    public function getDefaite() {
+    public function getDefaite()
+    {
         return $this->defaite;
     }
 
-    public function setDefaite($newDefaite) {
+    public function setDefaite($newDefaite)
+    {
         $this->defaite = $newDefaite;
     }
 
-    public function getCombat() {
+    public function getCombat()
+    {
         return $this->combat;
     }
 
-    public function setCombat($newCombat) {
+    public function setCombat($newCombat)
+    {
         $this->combat = $newCombat;
     }
 
-    public function verifVictoire() {
+    public function verifVictoire()
+    {
         if ($this->getVictoire() > 10) {
-            popen("cls","w");
-            echo "Tu as finis le jeu !\n\nPress 1 pour fermer la partie\n";
+            popen("cls", "w");
+            echo "\e[0;32mTu as finis le jeu !\e[0m\n\Appuie sur 1 pour fermer le jeu !\n";
             $choice = readline("> ");
             switch ($choice) {
-                case 1 :
+                case 1:
                     die(0);
-                default :
-                    echo "Cela n'est pas disponible !";
+                default:
+                    echo "\e[0;31mCela n'est pas disponible !\e[0m\n";
                     break;
             }
-        };
+        }
+        ;
     }
 }
 
@@ -379,11 +423,10 @@ $gohan = new Gohan();
 $buu = new Buu();
 $trunks = new Trunks();
 $broly = new Broly();
-$a = 0;
 
-while ($a == 0) {
-    echo popen("cls", "w");
-    echo "Que souhaites-tu faire ?\n\n1 - Jouer\n2 - Voir les personnages\n3 - Règle\n4 - Statistiques\n5 - Quitter\n";
+while ($jeu->getCombat() <= 10) {
+    popen("cls", "w");
+    echo "Que souhaites-tu faire ?\n\n1 - Jouer\n2 - Voir les personnages\n3 - Règle\n4 - Statistiques\n5 - Sauvegarde\n6 - Quitter\n";
     $choice = readline("> ");
     $current_combat = 0;
     global $abandon;
@@ -397,7 +440,7 @@ while ($a == 0) {
                 $current_combat++;
                 switch ($current_combat) {
                     case 1:
-                        $jeu->Combat($goku, $beerus, $current_combat);
+                        $jeu->Combat($goku, $freezer, $current_combat);
                         if ($jeu->getCombat() == 1) {
                             $goku->setAttacks($goku->getBonus());
                         }
@@ -410,9 +453,18 @@ while ($a == 0) {
                         }
                         break;
                     case 3:
-                        echo "combat 3";
+                        $jeu->Combat($trunks, $buu, $current_combat);
+
+                        if ($jeu->getCombat() == 2) {
+                            $trunks->setAttacks($trunks->getBonus());
+                        }
                         break;
                 }
+
+                $save_content = $jeu->getCombat() . "\n" . $jeu->getVictoire() . "\n" . $jeu->getDefaite();
+                $file = fopen("save.txt", "wb");
+                fwrite($file, $save_content);
+                fclose($file);
             }
 
             $jeu->verifVictoire();
@@ -444,6 +496,8 @@ while ($a == 0) {
                     break;
                 case 5:
                     popen("cls", "w");
+                    $jeu->setCombat(11);
+                    break;
                     echo $broly->getNom(), "\n\nPV : ", $broly->getPv(), "\nPUISSANCE :", $broly->getPuissance(), "\n\n1 - Quitter\n";
                     readline("> ");
                     break; 
@@ -474,7 +528,7 @@ while ($a == 0) {
                 case 11:   
                     break;             
                 default:
-                    echo "Ce n'est pas disponible !\n";
+                    echo "\e[0;31mCe n'est pas disponible !\e[0m\n";
             }
             break;
         case 3:
@@ -487,24 +541,51 @@ while ($a == 0) {
             if ($jeu->getVictoire() == 0 && $jeu->getDefaite() == 0) {
                 echo "Statistiques\n\nCombat : 0\nVictoire : 0\nDefaite : 0\nRatio (V/D) : NA";
             } else if ($jeu->getVictoire() == 0 && $jeu->getDefaite() > 0) {
-                echo "Statistiques\n\nCombat : ", $jeu->getCombat() ,"\nVictoire : 0\nDefaite : ", $jeu->getDefaite(),
+                echo "Statistiques\n\nCombat : ", $jeu->getCombat(), "\nVictoire : 0\nDefaite : ", $jeu->getDefaite(),
                     "\nRatio (V/D) : 0";
             } else if ($jeu->getVictoire() > 0 && $jeu->getDefaite() == 0) {
-                echo "Statistiques\n\nCombat : ", $jeu->getCombat() ,"\nVictoire : ", $jeu->getVictoire(),
+                echo "Statistiques\n\nCombat : ", $jeu->getCombat(), "\nVictoire : ", $jeu->getVictoire(),
                     "\nDefaite : 0\nRatio (V/D) : ", $jeu->getVictoire(), "\n";
             } else {
-                echo "Statistiques\n\nCombat : ", $jeu->getCombat() ,"\nVictoire : ", $jeu->getVictoire(),
-                    "\nDefaite : ", $jeu->getDefaite(), "\nRatio (V/D) : ", $jeu->getVictoire()/$jeu->getDefaite(), "\n";
+                echo "Statistiques\n\nCombat : ", $jeu->getCombat(), "Victoire : ", $jeu->getVictoire(),
+                    "Defaite : ", $jeu->getDefaite(), "\nRatio (V/D) : ", $jeu->getVictoire() / $jeu->getDefaite(), "\n";
             }
             echo "\n\nAppuie sur une touche pour quitter\n";
             readline("> ");
             break;
         case 5:
             popen("cls", "w");
-            $a = 1;
+            $save = "save.txt";
+            $lines = file($save);
+            echo "Sauvegarde\n\nCombat : ", $lines[0], "Victoire : ", $lines[1], "Defaites : ", $lines[2], "\n\n1 - Utiliser la sauvegarde\n2 - Quitter\n";
+            $choice = readline("> ");
+
+            switch ($choice) {
+                case 1:
+                    popen("cls","w");
+                    $jeu->setCombat($lines[0]);
+                    $jeu->setVictoire($lines[1]);
+                    $jeu->setDefaite($lines[2]);
+                    echo "\e[0;32mRécuperation de la sauvegarde en cours...\e[0m\n";
+                    sleep(1);
+                    popen("cls","w");
+                    echo "\e[0;32mSauvegarde récupérée !\e[0m\n";
+                    sleep(1);
+                    break;
+                case 2:
+                    break;
+                default:
+                    echo "\e[0;31mCeci n'est pas disponible !\e[0m\n";
+            }
+            break;
+        case 6:
+            popen("cls", "w");
+            $jeu->setCombat(11);
             break;
         default:
-            echo "Ce n'est pas disponible !";
+            popen("cls", "w");
+            echo "\e[0;31mCe n'est pas disponible !\e[0m\n";
+            sleep(1);
             break;
     }
 }
