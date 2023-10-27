@@ -459,6 +459,8 @@ $gohan = new Gohan();
 $buu = new Buu();
 $trunks = new Trunks();
 $broly = new Broly();
+$list_normal = [$goku, $vegeta, $freezer, $cell, $satan, $gohan, $trunks, $broly];
+$list_speciale = [$goku, $vegeta, $freezer, $cell, $satan, $beerus, $gohan, $trunks, $broly];
 
 // LOOPS OF THE GAME
 while ($jeu->getCombat() <= 10) {
@@ -471,6 +473,24 @@ while ($jeu->getCombat() <= 10) {
     $abandon = false;
     switch ($choice) {
         case 1:
+            popen("cls","w");
+
+            $rand1 = random_int(0, count($list_normal)-1);
+            $rand3 = random_int(0, count($list_normal)-1);
+            $rand2 = random_int(0, count($list_normal)-1);
+            while ($rand2 == $rand1) { 
+                $rand2 = random_int(0, count($list_normal)-1);
+            }
+            while ($rand3 == $rand1 && $rand3 == $rand2) { 
+                $rand3 = random_int(0, count($list_normal)-1);
+            }
+
+            $enemie1 = $list_normal[$rand1];
+            $enemie2 = $list_normal[$rand2];
+            $enemie3 = $list_normal[$rand3];
+
+            // echo "Comment souhaites-tu faire ton équipe ?\n\n1 - Aléatoirement\n2 - Choisir les 3 personnages\n3 - Quitter\n";
+            // $choice = readline("> ");
             // WHEN CURRENT_COMBAT = 4 THEN THE FIGHT SERIE IS FINISHED
             while ($current_combat < 4) {
                 // GIVE UP GESTION
@@ -481,7 +501,7 @@ while ($jeu->getCombat() <= 10) {
                 switch ($current_combat) {
                     case 1:
                         // CALL OF COMBAT FONCTION
-                        $jeu->Combat($goku, $freezer, $current_combat);
+                        $jeu->Combat($goku, $enemie1, $current_combat);
 
                         // IF IT'S THE FIRST FIGHT, ALLIE EARN NEW ATTACK FOR THE NEXT FIGHT SERIE
                         if ($jeu->getCombat() == 1) {
@@ -491,7 +511,7 @@ while ($jeu->getCombat() <= 10) {
                         break;
                         case 2:
                             // SAME AS CASE 1
-                            $jeu->Combat($vegeta, $cell, $current_combat);
+                            $jeu->Combat($vegeta, $enemie2, $current_combat);
                             
                             if ($jeu->getCombat() == 2) {
                                 $vegeta->setAttacks($vegeta->getBonus());
@@ -500,7 +520,7 @@ while ($jeu->getCombat() <= 10) {
                             break;
                             case 3:
                                 // SAME AS CASE 1 & 2
-                                $jeu->Combat($trunks, $buu, $current_combat);
+                                $jeu->Combat($trunks, $enemie3, $current_combat);
                                 
                                 if ($jeu->getCombat() == 3) {
                                     $trunks->setAttacks($trunks->getBonus());
@@ -512,9 +532,9 @@ while ($jeu->getCombat() <= 10) {
                     $goku->setPv($goku->getDefaultPV());
                     $vegeta->setPv($vegeta->getDefaultPV());
                     $trunks->setPv($trunks->getDefaultPV());
-                    $freezer->setPv($freezer->getDefaultPV());
-                    $cell->setPv($cell->getDefaultPV());
-                    $buu->setPv($buu->getDefaultPV());
+                    $enemie1->setPv($enemie1->getDefaultPV());
+                    $enemie2->setPv($enemie2->getDefaultPV());
+                    $enemie3->setPv($enemie3->getDefaultPV());
                 // AT THE END OF EACH FIGHT, THE GAME IS SAVED IN A TXT FILE WITH THE NUMBER OF FIGHTS, THE NUMBER OF VICTORIES AND DEFEATS.
                 $save_content = $jeu->getCombat() . "\n" . $jeu->getVictoire() . "\n" . $jeu->getDefaite();
                 $file = fopen("save.txt", "wb");
@@ -607,8 +627,8 @@ while ($jeu->getCombat() <= 10) {
                 echo "Statistiques\n\nCombat : ", $jeu->getCombat(), "\nVictoire : ", $jeu->getVictoire(),
                     "\nDefaite : 0\nRatio (V/D) : ", $jeu->getVictoire(), "\n";
             } else {
-                echo "Statistiques\n\nCombat : ", $jeu->getCombat(), "Victoire : ", $jeu->getVictoire(),
-                    "Defaite : ", $jeu->getDefaite(), "\nRatio (V/D) : ", $jeu->getVictoire() / $jeu->getDefaite(), "\n";
+                echo "Statistiques\n\nCombat : ", $jeu->getCombat(), "\nVictoire : ", $jeu->getVictoire(),
+                    "\nDefaite : ", $jeu->getDefaite(), "\nRatio (V/D) : ", $jeu->getVictoire() / $jeu->getDefaite(), "\n";
             }
             echo "\n\nAppuie sur une touche pour quitter\n";
             readline("> ");
