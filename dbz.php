@@ -2,8 +2,9 @@
 class Personnages
 {
     protected $nom;
-    protected $Puissance;
+    protected $puissance;
     protected $pv;
+    protected $default_pv;
     protected $attacks;
     protected $bonus;
 
@@ -90,9 +91,10 @@ class Goku extends Hero
         $this->nom = "Goku";
         $this->puissance = 25;
         $this->pv = 100;
+        $this->deflault_pv = 100;
         $this->attaque_hero = "";
         $this->attacks = [["coup de poing", $this->puissance], ["kamehameha", 50]];
-        $this->bonus = [["genkidama"]];
+        $this->bonus = [["genkidama",100]];
     }
 }
 class Vegeta extends Hero
@@ -102,9 +104,10 @@ class Vegeta extends Hero
         $this->nom = "Vegeta";
         $this->puissance = 100;
         $this->pv = 100;
+        $this->deflault_pv = 100;
         $this->attaque_hero = "";
         $this->attacks = [["coup de poing marteau", $this->puissance], ["canon garric", 50]];
-        $this->bonus = [["final flash"]];
+        $this->bonus = [["final flash",100]];
 
     }
 }
@@ -115,13 +118,11 @@ class Freezer extends Vilain
         $this->nom = "Freezer";
         $this->puissance = 1;
         $this->pv = 100;
+        $this->deflault_pv = 100;
         $this->attaque_vilain = "";
         $this->attacks = [["coup de queue", $this->puissance], ["boule de la mort", 50]];
-<<<<<<< HEAD
-        $this->bonus = [["supernova"]];
-=======
         $this->bonus = ["supernova", 95];
->>>>>>> a504d8676f5d8b4b88217c7fadd7f6b9f69dd4bf
+
     }
 }
 class Cell extends Vilain
@@ -131,11 +132,90 @@ class Cell extends Vilain
         $this->nom = "Cell";
         $this->puissance = 100;
         $this->pv = 100;
+        $this->deflault_pv = 100;
         $this->attaque_vilain = "";
         $this->attacks = [["coup de queue", $this->puissance], ["aspiration", 50]];
-        $this->bonus = [["super kamehameha"]];
+        $this->bonus = [["super kamehameha",100]];
+    }     
 }
 
+class Gohan extends Hero
+{
+
+    public function __construct() {
+        $this->var = "Gohan";
+        $this->puissance = ;
+        $this->pv = 100;
+        $this->deflault_pv = 100;
+        $this->attaque_hero = [[" enchainement saiyan hybride"],["mazenko",50]];
+        $this->bonus = [[" kamehameha pere-fils",100]];
+    }     
+    
+}
+class Satan extends Hero
+{
+
+    public function __construct() {
+        $this->var = "Satan";
+        $this->puissance = ;
+        $this->pv = 1;
+        $this->deflault_pv = 100;
+        $this->attaque_hero = [["lancer de canette",1],["feu d'artifice"2]];
+        $this->bonus = [[" lance rocket",5]];
+    }     
+    
+}
+class Beerus extends Hero
+{
+
+    public function __construct() {
+        $this->var = "Beerus";
+        $this->puissance = ;
+        $this->pv = 100;
+        $this->deflault_pv = 100;
+        $this->attaque_hero = [["coup divin",100]];
+        $this->bonus = [["hakai",999]];
+    }     
+    
+}
+class Buu extends Vilain
+{
+
+    public function __construct() {
+        $this->var = "Buu";
+        $this->puissance = ;
+        $this->pv = 100;
+        $this->deflault_pv = 100;
+        $this->attaque_hero = [["coup longue distance",100]];
+        $this->bonus = [["raffale boule d'energie",75]];
+    }     
+    
+}
+class Trunks extends Hero
+{
+
+    public function __construct() {
+        $this->var = "trunks";
+        $this->puissance = ;
+        $this->pv = 100;
+        $this->deflault_pv = 100;
+        $this->attaque_hero = [["coup d'epée",25]];
+        $this->bonus = [["burning attack",50]];
+    }     
+    
+}
+class Broly extends Vilain
+{
+
+    public function __construct() {
+        $this->var = "broly";
+        $this->puissance = ;
+        $this->pv = 100;
+        $this->deflault_pv = 100;
+        $this->attaque_hero = [["coup enragée",50]["eraser cannon"]];
+        $this->bonus = [["meteor géant",100]];
+    }     
+}    
 class Display
 {
     public function Combat($allie, $enemie, $current_combat)
@@ -201,7 +281,12 @@ $goku = new Goku();
 $vegeta = new Vegeta();
 $freezer = new Freezer();
 $cell = new Cell();
-
+$satan = new Satan();
+$beerus = new Beerus();
+$gohan = new Gohan();
+$buu = new Buu();
+$trunks = new Trunks();
+$broly = new Broly();
 $a = 0;
 
 while ($a == 0) {
