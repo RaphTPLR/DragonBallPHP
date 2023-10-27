@@ -25,6 +25,10 @@ class Personnages
         return $this->nom;
     }
 
+    public function setNom($newNom) {
+        $this->nom = $newNom;
+    }
+
     public function getPuissance()
     {
         return $this->puissance;
@@ -282,6 +286,14 @@ class Display
                 $allie->setAttacks(["Kamehameha Père-Fils", 500]);
             }
 
+            if ($allie->getNom() == "Goku" && $enemie->getNom()== "Freezer" ){
+              echo "Goku s'eveille";
+               $allie->setNom("Goku Super Saiyan");
+               $allie->setAttacks(["Kamehameha instantané", 500]);
+            } else if ($allie->getNom() == "Goku Super Saiyan" && $enemie->getNom() != "Freezer") {
+                $allie->setNom("Goku");
+            }
+        
             echo "\e[0;34mCombat ", $current_combat, "\n\n", $allie->getNom(), " (PV :", $allie->getPv(), ") \e[0mVS \e[0;31m",
                 $enemie->getNom(), " (PV :", $enemie->getPv(), ")\e[0m\n";
             sleep(1);
