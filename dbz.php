@@ -58,10 +58,6 @@ class Personnages
     {
         echo $this->getNom(), " est mort !\n";
     }
-    public function DisplayStat($nom,$pvn,$Puissance){
-
-
-    }
 }
 
 class Hero extends Personnages
@@ -121,8 +117,7 @@ class Freezer extends Vilain
         $this->deflault_pv = 100;
         $this->attaque_vilain = "";
         $this->attacks = [["coup de queue", $this->puissance], ["boule de la mort", 50]];
-        $this->bonus = ["supernova", 95];
-
+        $this->bonus = ["supernova", 95]
     }
 }
 class Cell extends Vilain
@@ -135,7 +130,8 @@ class Cell extends Vilain
         $this->deflault_pv = 100;
         $this->attaque_vilain = "";
         $this->attacks = [["coup de queue", $this->puissance], ["aspiration", 50]];
-        $this->bonus = [["super kamehameha",100]];
+        $this->bonus = ["super kamehameha",100];
+    }
     }     
 }
 
@@ -148,7 +144,7 @@ class Gohan extends Hero
         $this->pv = 100;
         $this->deflault_pv = 100;
         $this->attaque_hero = [[" enchainement saiyan hybride"],["mazenko",50]];
-        $this->bonus = [[" kamehameha pere-fils",100]];
+        $this->bonus = [" kamehameha pere-fils",100];
     }     
     
 }
@@ -218,8 +214,16 @@ class Broly extends Vilain
 }    
 class Display
 {
+    private $victoire;
+    private $defaite;
+    public function __construct() {
+        $this->victoire = 0;
+        $this->defaite = 0;
+    }
+
     public function Combat($allie, $enemie, $current_combat)
     {
+        global $abandon;
         $compt = 0;
         while ($compt == 0) {
             popen("cls", "w");
@@ -254,11 +258,13 @@ class Display
                             if ($allie->getPv() <= 0) {
                                 popen("cls", "w");
                                 $allie->Mourir();
+                                $this->setDefaite($this->getDefaite() + 1);
                                 sleep(1);
                                 $compt = 1;
                             } else if ($enemie->getPv() <= 0) {
                                 popen("cls", "w");
                                 $enemie->Mourir();
+                                $this->setDefaite($this->getDefaite() + 1);
                                 sleep(1);
                                 $compt = 1;
                             }
@@ -268,11 +274,48 @@ class Display
                     echo "Esquive !\n";
                     break;
                 case 3 :
-                    break;
+                    return $abandon = true;
                 default :
                     echo "Ceci n'est pas disponible !\n";
             }
         }
+
+        if ($compt == 0) {
+            return;
+        }
+
+        $this->setVictoire($this->getVictoire() + 1);
+    }
+
+    public function getVictoire() {
+        return $this->victoire;
+    }
+
+    public function setVictoire($newVictoire) {
+        $this->victoire = $newVictoire;
+    }
+
+    public function getDefaite() {
+        return $this->defaite;
+    }
+
+    public function setDefaite($newDefaite) {
+        $this->defaite = $newDefaite;
+    }
+
+    public function verifVictoire() {
+        if ($this->getVictoire() > 10) {
+            popen("cls","w");
+            echo "Tu as finis le jeu !\n\nPress 1 pour fermer la partie\n";
+            $choice = readline("> ");
+            switch ($choice) {
+                case 1 :
+                    die(0);
+                default :
+                    echo "Cela n'est pas disponible !";
+                    break;
+            }
+        };
     }
 }
 
@@ -291,13 +334,17 @@ $a = 0;
 
 while ($a == 0) {
     echo popen("cls", "w");
-    echo "Que souhaites-tu faire ?\n\n1 - Jouer\n2 - Voir les personnages\n3 - Quitter\n";
+    echo "Que souhaites-tu faire ?\n\n1 - Jouer\n2 - Voir les personnages\n3 - Règle\n4 - Statistiques\n5 - Quitter\n";
     $choice = readline("> ");
     $current_combat = 0;
+    global $abandon;
+    $abandon = false;
     switch ($choice) {
         case 1:
-            echo "Jouer";
             while ($current_combat < 4) {
+                if ($abandon) {
+                    $current_combat = 4;
+                }
                 $current_combat++;
                 switch ($current_combat) {
                     case 1:
@@ -311,6 +358,8 @@ while ($a == 0) {
                         break;
                 }
             }
+
+            $jeu->verifVictoire();
             break;
         case 2:
             popen("cls", "w");
@@ -346,6 +395,27 @@ while ($a == 0) {
             }
             break;
         case 3:
+            popen("cls", "w");
+            echo "Bienvenue sur le jeu Dragon Ball\n\nRemporte 10 victoires afin de terminer le jeu !\n\nBonne chance,\n\nPress une touche\n";
+            readline("> ");
+            break;
+        case 4:
+            popen("cls", "w");
+            if ($jeu->getVictoire() == 0 && $jeu->getDefaite() == 0) {
+                echo "Statistiques\n\nVictoire : 0\nDefaite : 0\nRatio (V/D) : NA";
+            } else if ($jeu->getVictoire() == 0 && $jeu->getDefaite() > 0) {
+                echo "Statistiques\n\nVictoire : 0\nDefaite : ", $jeu->getDefaite(), "\nRatio (V/D) : 0";
+            } else if ($jeu->getVictoire() > 0 && $jeu->getDefaite() == 0) {
+                echo "Statistiques\n\nVictoire : ", $jeu->getVictoire(), "\nDefaite : 0\nRatio (V/D) : ",
+                    $jeu->getVictoire(), "\n";
+            } else {
+                echo "Statistiques\n\nVictoire : ", $jeu->getVictoire(), "\nDefaite : ", $jeu->getDefaite(), "\nRatio (V/D) : ",
+                    $jeu->getVictoire()/$jeu->getDefaite(), "\n";
+            }
+            echo "\n\nAppuie sur une touche pour quitter\n";
+            readline("> ");
+            break;
+        case 5:
             popen("cls", "w");
             $a = 1;
             break;
