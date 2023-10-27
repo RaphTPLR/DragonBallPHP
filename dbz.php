@@ -168,7 +168,7 @@ class Satan extends Hero
     }     
     
 }
-class Beerus extends Hero
+class Beerus extends Vilain
 {
 
     public function __construct() {
@@ -176,7 +176,7 @@ class Beerus extends Hero
         $this->puissance = 30;
         $this->pv = 100;
         $this->default_pv = 100;
-        $this->attacks = [["Coup Divin", 100], ["Feu D'art", 50]];
+        $this->attacks = [["Coup Divin", 999]];
         $this->bonus = ["Hakai", 999];
     }     
     
@@ -294,6 +294,7 @@ class Display
                     break;
                 case 2 :
                     popen("cls", "w");
+                    if ($enemie->getnom()!= "Beerus"){
                     echo $allie->getNom() ," esquive !\n";
                     sleep(2);
 
@@ -306,6 +307,11 @@ class Display
                         echo $enemie->getNom()," à esquivé aussi !\n";
                     }
                     sleep(2);
+                    }
+                   elseif ($enemie->getNom()== "Beerus"){
+                        echo" l'esquive de: ", $allie->getNom();
+                        sleep(2);
+                    }
                     break;
                 case 3 :
                     return $abandon = true;
