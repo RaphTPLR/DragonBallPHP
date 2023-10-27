@@ -263,13 +263,14 @@ class Display
                             if ($enemie->getPv() > 0) {
                                 popen("cls", "w");
                                 $rand = random_int(1, count($enemie->getAttacks()) + 1);
+                                echo $rand, "\n";
 
-                                if ($rand < count($enemie->getAttacks())) {
+                                if ($rand <= count($enemie->getAttacks())) {
                                     echo $enemie->getNom(), " utilise ", $enemie->getAttacks()[$rand - 1][0], " !\n\n", $enemie->getNom(), " à infligé ",
                                     $enemie->getAttacks()[$rand - 1][1], " à ", $allie->getNom();
     
                                     $enemie->Attack($allie, $enemie->getAttacks()[$rand - 1][1]);
-                                } else if ($rand == count($enemie->getAttacks())) { 
+                                } else if ($rand == count($enemie->getAttacks()) + 1) { 
                                     echo $enemie->getNom(), " à esquivé l'attaque de ", $allie->getNom(), "!\n";
                                     $enemie->setPv($enemie->getPv() + $allie->getAttacks()[$choice - 1][1]);
                                 }
@@ -294,24 +295,45 @@ class Display
                     break;
                 case 2 :
                     popen("cls", "w");
-                    if ($enemie->getnom()!= "Beerus"){
-                    echo $allie->getNom() ," esquive !\n";
-                    sleep(2);
-
-                    popen("cls", "w");
                     $rand = random_int(1, count($enemie->getAttacks()));
-                    if ($rand < count($enemie->getAttacks())) {
-                        echo $enemie->getNom(), " utilise ", $enemie->getAttacks()[$rand - 1][0], " !\n\nMais ", $allie->getNom(), " à esquivé !\n\n" ,
-                            $enemie->getNom(), " à infligé 0 de dégats à ", $allie->getNom();
-                    } else if ($rand == count($enemie->getAttacks())) {
-                        echo $enemie->getNom()," à esquivé aussi !\n";
-                    }
-                    sleep(2);
-                    }
-                   elseif ($enemie->getNom()== "Beerus"){
-                        echo" l'esquive de: ", $allie->getNom();
+                    if ($enemie->getnom() != "Beerus"){
+                        echo $allie->getNom() ," esquive !\n";
+                        sleep(2);
+
+                        popen("cls", "w");
+                        if ($rand <= count($enemie->getAttacks())) {
+                            echo $enemie->getNom(), " utilise ", $enemie->getAttacks()[$rand - 1][0], " !\n\nMais ", $allie->getNom(), " à esquivé !\n\n" ,
+                                $enemie->getNom(), " à infligé 0 de dégats à ", $allie->getNom();
+
+                        } else if ($rand == count($enemie->getAttacks()) + 1) {
+                            echo $enemie->getNom()," à esquivé aussi !\n";
+                        }
                         sleep(2);
                     }
+                    else if ($enemie->getNom()== "Beerus"){
+                        echo "L'esquive de ", $allie->getNom(), " a été annulée !\n";
+                        sleep(2);
+                        popen("cls", "w");
+
+                        if ($rand <= count($enemie->getAttacks())) {
+                            echo $enemie->getNom(), " utilise ", $enemie->getAttacks()[$rand - 1][0], " !\n\n", $enemie->getNom(), " à infligé ",
+                            $enemie->getAttacks()[$rand - 1][1], " à ", $allie->getNom();
+    
+                            $enemie->Attack($allie, $enemie->getAttacks()[$rand - 1][1]);
+                        } else if ($rand == count($enemie->getAttacks()) + 1) { 
+                            echo $enemie->getNom(), " à esquivé l'attaque de ", $allie->getNom(), "!\n";
+                            $enemie->setPv($enemie->getPv() + $allie->getAttacks()[$choice - 1][1]);
+                        }
+                        sleep(2);
+                    }
+
+                        if ($allie->getPv() <= 0) {
+                            popen("cls", "w");
+                            $allie->Mourir();
+                            $this->setDefaite($this->getDefaite() + 1);
+                            sleep(1);
+                            $compt = 1;
+                        }
                     break;
                 case 3 :
                     return $abandon = true;
