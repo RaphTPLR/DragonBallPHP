@@ -95,10 +95,10 @@ class Goku extends Hero
         $this->nom = "Goku";
         $this->puissance = 25;
         $this->pv = 100;
-        $this->deflault_pv = 100;
+        $this->default_pv = 100;
         $this->attaque_hero = "";
-        $this->attacks = [["coup de poing", $this->puissance], ["kamehameha", 50]];
-        $this->bonus = ["genkidama",100, 90];
+        $this->attacks = [["Coup de poing", $this->puissance], ["Kamehameha", 50]];
+        $this->bonus = ["Genkidama", 90];
     }
 }
 class Vegeta extends Hero
@@ -108,10 +108,10 @@ class Vegeta extends Hero
         $this->nom = "Vegeta";
         $this->puissance = 100;
         $this->pv = 100;
-        $this->deflault_pv = 100;
+        $this->default_pv = 100;
         $this->attaque_hero = "";
-        $this->attacks = [["coup de poing marteau", $this->puissance], ["canon garric", 50]];
-        $this->bonus = ["final flash", 85];
+        $this->attacks = [["Coup de poing marteau", $this->puissance], ["Canon Garric", 50]];
+        $this->bonus = ["Final Flash", 85];
 
     }
 }
@@ -122,7 +122,7 @@ class Freezer extends Vilain
         $this->nom = "Freezer";
         $this->puissance = 1;
         $this->pv = 100;
-        $this->deflault_pv = 100;
+        $this->default_pv = 100;
         $this->attaque_vilain = "";
         $this->attacks = [["coup de queue", $this->puissance], ["boule de la mort", 50]];
         $this->bonus = ["supernova", 95];
@@ -135,7 +135,7 @@ class Cell extends Vilain
         $this->nom = "Cell";
         $this->puissance = 100;
         $this->pv = 100;
-        $this->deflault_pv = 100;
+        $this->default_pv = 100;
         $this->attaque_vilain = "";
         $this->attacks = [["coup de queue", $this->puissance], ["aspiration", 50]];
         $this->bonus = ["super kamehameha", 100];
@@ -146,10 +146,10 @@ class Gohan extends Hero
 {
 
     public function __construct() {
-        $this->var = "Gohan";
+        $this->nom = "Gohan";
         $this->puissance = 15;
         $this->pv = 100;
-        $this->deflault_pv = 100;
+        $this->default_pv = 100;
         $this->attaque_hero = [[" enchainement saiyan hybride", $this->puissance],["mazenko",50]];
         $this->bonus = ["kamehameha pere-fils", 100];
     }     
@@ -159,10 +159,10 @@ class Satan extends Hero
 {
 
     public function __construct() {
-        $this->var = "Satan";
+        $this->nom = "Satan";
         $this->puissance = 18;
         $this->pv = 1;
-        $this->deflault_pv = 100;
+        $this->default_pv = 100;
         $this->attaque_hero = [["lancer de canette",1],["feu d'artifice", 2]];
         $this->bonus = ["lance rocket", 5];
     }     
@@ -172,10 +172,10 @@ class Beerus extends Hero
 {
 
     public function __construct() {
-        $this->var = "Beerus";
+        $this->nom = "Beerus";
         $this->puissance = 30;
         $this->pv = 100;
-        $this->deflault_pv = 100;
+        $this->default_pv = 100;
         $this->attaque_hero = [["coup divin",100]];
         $this->bonus = ["hakai", 999];
     }     
@@ -185,10 +185,10 @@ class Buu extends Vilain
 {
 
     public function __construct() {
-        $this->var = "Buu";
+        $this->nom = "Buu";
         $this->puissance = 24;
         $this->pv = 100;
-        $this->deflault_pv = 100;
+        $this->default_pv = 100;
         $this->attaque_hero = [["coup longue distance",100]];
         $this->bonus = ["raffale boule d'energie",75];
     }     
@@ -198,10 +198,10 @@ class Trunks extends Hero
 {
 
     public function __construct() {
-        $this->var = "trunks";
+        $this->nom = "trunks";
         $this->puissance = 21;
         $this->pv = 100;
-        $this->deflault_pv = 100;
+        $this->default_pv = 100;
         $this->attaque_hero = [["coup d'epée",25]];
         $this->bonus = ["burning attack", 50];
     }     
@@ -211,10 +211,10 @@ class Broly extends Vilain
 {
 
     public function __construct() {
-        $this->var = "broly";
+        $this->nom = "broly";
         $this->puissance = 22;
         $this->pv = 100;
-        $this->deflault_pv = 100;
+        $this->default_pv = 100;
         $this->attaque_hero = [["coup enragée", 50],["eraser cannon", 60]];
         $this->bonus = ["meteor géant", 100];
     }     
@@ -287,7 +287,16 @@ class Display
                     }
                     break;
                 case 2 :
-                    echo "Esquive !\n";
+                    popen("cls", "w");
+                    echo $allie->getNom() ," esquive !\n";
+                    sleep(2);
+
+                    popen("cls", "w");
+                    $rand = random_int(1, 2);
+                    
+                    echo $enemie->getNom(), " utilise ", $enemie->getAttacks()[$rand - 1][0], " !\n\nMais ", $allie->getNom(), " à esquivé !\n\n" ,
+                        $enemie->getNom(), " à infligé 0 de dégats à ", $allie->getNom();
+                    sleep(2);
                     break;
                 case 3 :
                     return $abandon = true;
