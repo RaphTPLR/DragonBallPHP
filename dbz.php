@@ -55,6 +55,10 @@ class Personnages
         return $this->bonus;
     }
 
+    public function getDefaultPV() {
+        return $this->default_pv;
+    }
+
     // ATTACK FUNCTION IN WHICH YOU RECOVER THE ENEMY'S PV AND CALL UP PRENDREDEGATS FUNCTION AND TAKES THE ENEMY AND HIS ATTACK AS AN ARGUMENT
     public function Attack($enemie, $attack)
     {
@@ -111,7 +115,7 @@ class Goku extends Hero
         $this->pv = 225;
         $this->default_pv = 225;
         $this->attaque_hero = "";
-        $this->attacks = [["Coup de poing", $this->puissance],["boule d'energie",50], ["Kamehameha", 100]];
+        $this->attacks = [["Coup de Poing", $this->puissance],["Boule d'energie",50], ["Kamehameha", 100]];
         $this->bonus = ["Genkidama", 200];
     }
 }
@@ -124,7 +128,7 @@ class Vegeta extends Hero
         $this->pv = 225;
         $this->default_pv = 225;
         $this->attaque_hero = "";
-        $this->attacks = [["Coup de poing marteau" , $this->puissance],["boule d'energie", 50], ["Canon Garric", 100]];
+        $this->attacks = [["Coup de Poing marteau" , $this->puissance],["Boule d'energie", 50], ["Canon Garric", 100]];
         $this->bonus = ["Final Flash", 150];
 
     }
@@ -138,7 +142,7 @@ class Freezer extends Vilain
         $this->pv = 300;
         $this->default_pv = 300;
         $this->attaque_vilain = "";
-        $this->attacks = [["Coup De Queue", $this->puissance],["boule d'energie", 50], ["Boule De La Mort", 120]];
+        $this->attacks = [["Coup De Queue", $this->puissance],["Boule d'energie", 50], ["Boule De La Mort", 120]];
         $this->bonus = ["Supernova", 140];
     }
 }
@@ -151,7 +155,7 @@ class Cell extends Vilain
         $this->pv = 500;
         $this->default_pv = 500;
         $this->attaque_vilain = "";
-        $this->attacks = [["Coup De Queue", $this->puissance],["boule d'energie", 50], ["Aspiration", 120]];
+        $this->attacks = [["Coup De Queue", $this->puissance],["Boule d'energie", 50], ["Aspiration", 120]];
         $this->bonus = ["super kamehameha", 170];
     }   
 }
@@ -165,7 +169,7 @@ class Gohan extends Hero
         $this->puissance = 20;
         $this->pv = 210;
         $this->default_pv = 200;
-        $this->attacks = [["Enchainement Saiyan Hybride",["boule d'energie", 50] ,$this->puissance],["Mazenko", 75]];
+        $this->attacks = [["Enchainement Saiyan Hybride",["Boule d'energie", 50] ,$this->puissance],["Mazenko", 75]];
         $this->bonus = ["Kamehameha Pere-Fils", 190];
     }     
     
@@ -207,8 +211,8 @@ class Buu extends Vilain
         $this->puissance = 20;
         $this->pv = 600;
         $this->default_pv = 600;
-        $this->attacks = [["Coup Longue Distance", $this->puissance],["boule d'energie",50],[" boule d'antivie", 130]];
-        $this->bonus = ["Raffale Boule d'Energie", 150];
+        $this->attacks = [["Coup Longue Distance", $this->puissance],["Boule d'energie",50],[" Boule d'entivie", 130]];
+        $this->bonus = ["Raffale Boule d'energie", 150];
     }     
     
 }
@@ -221,7 +225,7 @@ class Trunks extends Hero
         $this->puissance = 20;
         $this->pv = 200;
         $this->default_pv = 190;
-        $this->attacks = [["Coup d'Epée", $this->puissance],["boule d'energie", 50],["buster cannon",75]];
+        $this->attacks = [["Coup d'Epée", $this->puissance],["Boule d'energie", 50],["buster cannon",75]];
         $this->bonus = ["Burning Attack", 150];
     }     
      
@@ -235,7 +239,7 @@ class Broly extends Vilain
         $this->puissance = 20;
         $this->pv = 400;
         $this->default_pv = 400;
-        $this->attacks = [["Coup enragée",$this->puissance ],["boule d'energie",50],["Eraser Cannon", 120]];
+        $this->attacks = [["Coup enragée",$this->puissance ],["Boule d'energie",50],["Eraser Cannon", 120]];
         $this->bonus = ["Meteor Géant", 180];
     }     
 }    
@@ -483,25 +487,34 @@ while ($jeu->getCombat() <= 10) {
                         if ($jeu->getCombat() == 1) {
                             $goku->setAttacks($goku->getBonus());
                         }
-                        break;
-                    case 2:
-                        // SAME AS CASE 1
-                        $jeu->Combat($vegeta, $cell, $current_combat);
 
-                        if ($jeu->getCombat() == 2) {
-                            $vegeta->setAttacks($vegeta->getBonus());
-                        }
                         break;
-                    case 3:
-                        // SAME AS CASE 1 & 2
-                        $jeu->Combat($trunks, $buu, $current_combat);
-
-                        if ($jeu->getCombat() == 3) {
-                            $trunks->setAttacks($trunks->getBonus());
-                        }
-                        break;
-                }
-
+                        case 2:
+                            // SAME AS CASE 1
+                            $jeu->Combat($vegeta, $cell, $current_combat);
+                            
+                            if ($jeu->getCombat() == 2) {
+                                $vegeta->setAttacks($vegeta->getBonus());
+                            }
+                            
+                            break;
+                            case 3:
+                                // SAME AS CASE 1 & 2
+                                $jeu->Combat($trunks, $buu, $current_combat);
+                                
+                                if ($jeu->getCombat() == 3) {
+                                    $trunks->setAttacks($trunks->getBonus());
+                                }
+                                
+                                break;
+                            }
+                            
+                    $goku->setPv($goku->getDefaultPV());
+                    $vegeta->setPv($vegeta->getDefaultPV());
+                    $trunks->setPv($trunks->getDefaultPV());
+                    $freezer->setPv($freezer->getDefaultPV());
+                    $cell->setPv($cell->getDefaultPV());
+                    $buu->setPv($buu->getDefaultPV());
                 // AT THE END OF EACH FIGHT, THE GAME IS SAVED IN A TXT FILE WITH THE NUMBER OF FIGHTS, THE NUMBER OF VICTORIES AND DEFEATS.
                 $save_content = $jeu->getCombat() . "\n" . $jeu->getVictoire() . "\n" . $jeu->getDefaite();
                 $file = fopen("save.txt", "wb");
@@ -514,7 +527,7 @@ while ($jeu->getCombat() <= 10) {
             break;
         case 2:
             popen("cls", "w");
-            echo "Qui souhaites-tu voir ?\n1 - Goku\n2 - Vegeta\n3 - Freezer\n4 - Cell\n5 - Broly\n6 - Satan\n7 - Beerus\n8 - Gohan\n9 - Buu\10 - trunks\n11  - Quitter\n\n";
+            echo "Qui souhaites-tu voir ?\n1 - Goku\n2 - Vegeta\n3 - Freezer\n4 - Cell\n5 - Broly\n6 - Satan\n7 - Beerus\n8 - Gohan\n9 - Buu\n10 - trunks\n11 - Quitter\n\n";
             $choice = readline("> ");
 
             // DISPLAY OF ALL AVAILABLE CHARACTERS AND THEIR STATS
@@ -541,8 +554,6 @@ while ($jeu->getCombat() <= 10) {
                     break;
                 case 5:
                     popen("cls", "w");
-                    $jeu->setCombat(11);
-                    break;
                     echo $broly->getNom(), "\n\nPV : ", $broly->getPv(), "\nPUISSANCE :", $broly->getPuissance(), "\n\n1 - Quitter\n";
                     readline("> ");
                     break; 
