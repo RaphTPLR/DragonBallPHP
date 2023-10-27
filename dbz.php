@@ -1,6 +1,8 @@
 <?php
+// CHARACTERS PARENT CLASS
 class Personnages
 {
+    // PROTECTED BECAUSE WE USE THESE VARIABLES IN THE INHERITED CLASSES
     protected $nom;
     protected $puissance;
     protected $pv;
@@ -8,6 +10,7 @@ class Personnages
     protected $attacks;
     protected $bonus;
 
+    // MAIN CONSTRUCT
     public function __construct($Nom, $Puissance, $Pv)
     {
         $this->nom = $Nom;
@@ -16,6 +19,7 @@ class Personnages
         $this->attacks = array();
     }
 
+    // GET AND SET FOR ALMOST ALL VARIABLES
     public function getNom()
     {
         return $this->nom;
@@ -51,12 +55,15 @@ class Personnages
         return $this->bonus;
     }
 
+    // ATTACK FUNCTION IN WHICH YOU RECOVER THE ENEMY'S PV AND CALL UP PRENDREDEGATS FUNCTION AND TAKES THE ENEMY AND HIS ATTACK AS AN ARGUMENT
     public function Attack($enemie, $attack)
     {
         $pv = $enemie->getPv();
         $this->PrendreDegats($pv, $attack, $enemie);
     }
 
+    // FUNCTION THAT SUBTRACTS ATTACK FROM PV AND SETS NEW PV
+    // 
     public function PrendreDegats($pv, $attack, $enemie)
     {
         $update = $pv - $attack;
@@ -64,12 +71,14 @@ class Personnages
         echo "\nIl ne reste plus que ", $enemie->getPv(), " PV à ", $enemie->getNom(), "!\n";
     }
 
+    // FUNCTION THAT DISPLAYS THE DEATH SENTENCE
     public function Mourir()
     {
         echo "\e[0;31m", $this->getNom(), " est mort !\e[0m\n";
     }
 }
 
+// HERITAGE CLASS FOR HEROES
 class Hero extends Personnages
 {
     protected $attaque_hero;
@@ -81,6 +90,7 @@ class Hero extends Personnages
     }
 }
 
+// HERITAGE CLASS FOR VILAIN
 class Vilain extends Personnages
 {
     protected $attaque_vilain;
@@ -90,6 +100,8 @@ class Vilain extends Personnages
         $this->attaque_vilain = $Attaque_vilain;
     }
 }
+
+// CLASS FOR EACH CHARACTER. WE'VE DECIDED TO MAKE CLASSES FOR EACH CHARACTER FOR GREATER READABILITY.
 class Goku extends Hero
 {
     public function __construct()
@@ -227,8 +239,11 @@ class Broly extends Vilain
         $this->bonus = ["Meteor Géant", 100];
     }
 }
+
+// CLASS FOR THE GAME
 class Display
 {
+    // PRIVATE AS WE ONLY USE THESE VARIABLES IN THE DISPLAY CLASS
     private $victoire;
     private $defaite;
     private $combat;
@@ -239,11 +254,14 @@ class Display
         $this->combat = 0;
     }
 
+    // COMBAT CLASS, INCLUDING ACTION CHOICE AND ATTACK CHOICE
     public function Combat($allie, $enemie, $current_combat)
     {
+        // GLOBAL VARIABLE SO IT CAN BE USED ANYWHERE
         global $abandon;
         $compt = 0;
         while ($compt == 0) {
+            // TEXT COMBAT BLINKING (EFFECT)
             popen("cls", "w");
             echo "\e[0;34mCombat ", $current_combat, "\n\n", $allie->getNom(), " (PV :", $allie->getPv(), ") \e[0mVS \e[0;31m",
                 $enemie->getNom(), " (PV :", $enemie->getPv(), ")\e[0m\n";
@@ -256,11 +274,15 @@ class Display
             $choice = readline("> ");
             switch ($choice) {
                 case 1:
+                    // UNTIL THE SERIES OF 3 FIGHTS IS OVER, THE FIGHT GOES ON
                     for ($i = 0; $i < $current_combat; $i++) {
                         popen("cls", "w");
+
+                        // DISPLAY NAME AND PV FOR EACH FIGHTER
                         echo "\e[0;34mCombat ", $current_combat, "\n\n", $allie->getNom(), " (PV :", $allie->getPv(), ") VS ",
                             $enemie->getNom(), " (PV :", $enemie->getPv(), ")\e[0m\n\n";
 
+                        // BROWSES THROUGH ALL THE CHARACTER'S ATTACKS AND DISPLAYS THEM
                         for ($i = 0; $i < count($allie->getAttacks()); $i++) {
                             echo $i + 1, " - ", $allie->getAttacks()[$i][0], " (", $allie->getAttacks()[$i][1], ")\n";
                         }
@@ -268,6 +290,7 @@ class Display
                         echo "\nQuelle attaque souhaites-tu faire ?\n";
                         $choice = readline("> ");
 
+                        // CHOICE OF ATTACK, DAMAGE AND DISPLAY OF ADDAPTED TEXT FOR CHOICE
                         popen("cls", "w");
                         echo $allie->getNom(), " utilise \e[0;31m", $allie->getAttacks()[$choice - 1][0], " !\e[0m\n\n", $allie->getNom(), " à infligé \e[0;31m",
                             $allie->getAttacks()[$choice - 1][1], "\e[0m à ", $enemie->getNom();
@@ -275,8 +298,11 @@ class Display
                         $allie->Attack($enemie, $allie->getAttacks()[$choice - 1][1]);
                         sleep(2);
 
+                        // MAKE SURE THE ENEMY ISN'T DEAD BEFORE ATTACKING
                         if ($enemie->getPv() > 0) {
                             popen("cls", "w");
+
+                            // THE ENEMY MAKES A RANDOM ATTACK 
                             $rand = random_int(1, count($enemie->getAttacks()) + 1);
 
                             if ($rand <= count($enemie->getAttacks())) {
@@ -292,6 +318,7 @@ class Display
                             sleep(2);
                         }
 
+                        // CHECKS IF ENEMY OR ALLY IS DEAD, IF SO, CALLS THE DIE FUNCTION AND EXITS COMBAT
                         if ($allie->getPv() <= 0) {
                             popen("cls", "w");
                             $allie->Mourir();
@@ -310,6 +337,8 @@ class Display
                 case 2:
                     popen("cls", "w");
                     $rand = random_int(1, count($enemie->getAttacks()));
+
+                    // IF YOU CHOOSE TO DODGE, THE ENEMY ATTACKS. IF THE ENEMY IS BEERUS, THEN THE DODGE IS CANCELLED.
                     if ($enemie->getnom() != "Beerus") {
                         echo "\e[0;33m", $allie->getNom(), " esquive !\e[0m\n";
                         sleep(2);
@@ -340,6 +369,7 @@ class Display
                         sleep(2);
                     }
 
+                    // CHECKS IF ENEMY OR ALLY IS DEAD, IF SO, CALLS THE DIE FUNCTION AND EXITS COMBAT
                     if ($allie->getPv() <= 0) {
                         popen("cls", "w");
                         $allie->Mourir();
@@ -351,6 +381,7 @@ class Display
                     }
                     break;
                 case 3:
+                    // IF WE WANT TO GIVE UP THEN IT TAKES US OUT OF THE FIGHTING SERIES
                     return $abandon = true;
                 default:
                     echo "\e[0;31mCeci n'est pas disponible !\e[0m\n";
@@ -364,6 +395,7 @@ class Display
 
     }
 
+    // GET AND SET FOR ALMOST ALL VARIABLES
     public function getVictoire()
     {
         return $this->victoire;
@@ -394,6 +426,7 @@ class Display
         $this->combat = $newCombat;
     }
 
+    // CHECK IF THE PLAYER HAS 10 WINS OR MORE, IF SO THEN THE GAME STOPS
     public function verifVictoire()
     {
         if ($this->getVictoire() > 10) {
@@ -412,6 +445,7 @@ class Display
     }
 }
 
+// INITIALIZE THE GAME AND ALL CHARACTERS
 $jeu = new Display();
 $goku = new Goku();
 $vegeta = new Vegeta();
@@ -424,28 +458,36 @@ $buu = new Buu();
 $trunks = new Trunks();
 $broly = new Broly();
 
+// LOOPS OF THE GAME
 while ($jeu->getCombat() <= 10) {
     popen("cls", "w");
     echo "Que souhaites-tu faire ?\n\n1 - Jouer\n2 - Voir les personnages\n3 - Règle\n4 - Statistiques\n5 - Sauvegarde\n6 - Quitter\n";
     $choice = readline("> ");
+    // CURRENT_COMBAT TO FIND OUT WHICH FIGHT IN THE SERIES THE PLAYER IS AT
     $current_combat = 0;
     global $abandon;
     $abandon = false;
     switch ($choice) {
         case 1:
+            // WHEN CURRENT_COMBAT = 4 THEN THE FIGHT SERIE IS FINISHED
             while ($current_combat < 4) {
+                // GIVE UP GESTION
                 if ($abandon) {
                     $current_combat = 4;
                 }
                 $current_combat++;
                 switch ($current_combat) {
                     case 1:
+                        // CALL OF COMBAT FONCTION
                         $jeu->Combat($goku, $freezer, $current_combat);
+
+                        // IF IT'S THE FIRST FIGHT, ALLIE EARN NEW ATTACK FOR THE NEXT FIGHT SERIE
                         if ($jeu->getCombat() == 1) {
                             $goku->setAttacks($goku->getBonus());
                         }
                         break;
                     case 2:
+                        // SAME AS CASE 1
                         $jeu->Combat($vegeta, $cell, $current_combat);
 
                         if ($jeu->getCombat() == 2) {
@@ -453,26 +495,31 @@ while ($jeu->getCombat() <= 10) {
                         }
                         break;
                     case 3:
+                        // SAME AS CASE 1 & 2
                         $jeu->Combat($trunks, $buu, $current_combat);
 
-                        if ($jeu->getCombat() == 2) {
+                        if ($jeu->getCombat() == 3) {
                             $trunks->setAttacks($trunks->getBonus());
                         }
                         break;
                 }
 
+                // AT THE END OF EACH FIGHT, THE GAME IS SAVED IN A TXT FILE WITH THE NUMBER OF FIGHTS, THE NUMBER OF VICTORIES AND DEFEATS.
                 $save_content = $jeu->getCombat() . "\n" . $jeu->getVictoire() . "\n" . $jeu->getDefaite();
                 $file = fopen("save.txt", "wb");
                 fwrite($file, $save_content);
                 fclose($file);
             }
 
+            // AT THE END OF EACH SERIES WE CHECK WHETHER THE PLAYER HAS FINISHED THE GAME
             $jeu->verifVictoire();
             break;
         case 2:
             popen("cls", "w");
             echo "Qui souhaites-tu voir ?\n1 - Goku\n2 - Vegeta\n3 - Freezer\n4 - Cell\n5 - Quitter\n\n";
             $choice = readline("> ");
+
+            // DISPLAY OF ALL AVAILABLE CHARACTERS AND THEIR STATS
             switch ($choice) {
                 case 1:
                     popen("cls", "w");
@@ -504,11 +551,15 @@ while ($jeu->getCombat() <= 10) {
             break;
         case 3:
             popen("cls", "w");
+            
+            // DISPLAY RULES
             echo "Bienvenue sur le jeu Dragon Ball\n\nRemporte 10 victoires afin de terminer le jeu !\n\nBonne chance,\n\nPress une touche\n";
             readline("> ");
             break;
         case 4:
             popen("cls", "w");
+
+            // DISPLAY STATS OF THE CURRENT SAVE SAVE
             if ($jeu->getVictoire() == 0 && $jeu->getDefaite() == 0) {
                 echo "Statistiques\n\nCombat : 0\nVictoire : 0\nDefaite : 0\nRatio (V/D) : NA";
             } else if ($jeu->getVictoire() == 0 && $jeu->getDefaite() > 0) {
@@ -525,6 +576,7 @@ while ($jeu->getCombat() <= 10) {
             readline("> ");
             break;
         case 5:
+            // DISPLAY STATS OF THE LAST SAVE AND ASK IF WE WANT USE THE SAVE
             popen("cls", "w");
             $save = "save.txt";
             $lines = file($save);
@@ -533,10 +585,13 @@ while ($jeu->getCombat() <= 10) {
 
             switch ($choice) {
                 case 1:
+                    // IF YOU WANT TO RECOVER THE SAVE, SET THE BATTLES, VICTORIES AND DEFEATS
                     popen("cls","w");
                     $jeu->setCombat($lines[0]);
                     $jeu->setVictoire($lines[1]);
                     $jeu->setDefaite($lines[2]);
+
+                    // SAVE ANIMATION
                     echo "\e[0;32mRécuperation de la sauvegarde en cours...\e[0m\n";
                     sleep(1);
                     popen("cls","w");
@@ -550,6 +605,7 @@ while ($jeu->getCombat() <= 10) {
             }
             break;
         case 6:
+            // CLOSE THE GAME
             popen("cls", "w");
             $jeu->setCombat(11);
             break;
