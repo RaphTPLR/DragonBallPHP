@@ -176,7 +176,7 @@ class Gohan extends Hero
         $this->pv = 210;
         $this->default_pv = 200;
         $this->attacks = [["Enchainement Saiyan Hybride", $this->puissance], ["Boule d'energie", 50], ["Mazenko", 75]];
-        $this->bonus = ["Kamehameha Pere-Fils", 190];
+        $this->bonus = ["makenkozapo", 190];
     }
 
 }
@@ -276,6 +276,10 @@ class Display
             if ($allie->getNom() == "Satan" && $enemie->getNom() == "Beerus") {
                 $allie->setPv(999999);
                 $allie->setAttacks(["GROSSE CANETTE", 999999]);
+            }
+
+            if ($allie->getNom() == "Gohan" && $enemie->getNom() == "Cell") {
+                $allie->setAttacks(["Kamehameha Père-Fils", 500]);
             }
 
             echo "\e[0;34mCombat ", $current_combat, "\n\n", $allie->getNom(), " (PV :", $allie->getPv(), ") \e[0mVS \e[0;31m",
