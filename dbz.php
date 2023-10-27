@@ -263,7 +263,6 @@ class Display
                             if ($enemie->getPv() > 0) {
                                 popen("cls", "w");
                                 $rand = random_int(1, count($enemie->getAttacks()) + 1);
-                                echo $rand, "\n";
 
                                 if ($rand <= count($enemie->getAttacks())) {
                                     echo $enemie->getNom(), " utilise ", $enemie->getAttacks()[$rand - 1][0], " !\n\n", $enemie->getNom(), " à infligé ",
@@ -287,7 +286,7 @@ class Display
                             } else if ($enemie->getPv() <= 0) {
                                 popen("cls", "w");
                                 $enemie->Mourir();
-                                $this->setDefaite($this->getDefaite() + 1);
+                                $this->setVictoire($this->getVictoire() + 1);
                                 sleep(1);
                                 $compt = 1;
                             }
@@ -327,27 +326,28 @@ class Display
                         sleep(2);
                     }
 
-                        if ($allie->getPv() <= 0) {
-                            popen("cls", "w");
-                            $allie->Mourir();
-                            $this->setDefaite($this->getDefaite() + 1);
-                            sleep(1);
-                            $compt = 1;
-                        }
+                    if ($allie->getPv() <= 0) {
+                        popen("cls", "w");
+                        $allie->Mourir();
+                        $this->setDefaite($this->getDefaite() + 1);
+                        sleep(1);
+                        $compt = 1;
+                    } else if($enemie->getPv() <= 0){
+                        $this->setVictoire($this->getVictoire() + 1);
+                    }
                     break;
                 case 3 :
                     return $abandon = true;
                     default :
                     echo "Ceci n'est pas disponible !\n";
+                }
             }
-        }
                     
         $this->setCombat($this->getCombat() + 1);
         if ($compt == 0) {
             return;
         }
 
-        $this->setVictoire($this->getVictoire() + 1);
     }
 
     public function getVictoire() {
@@ -401,9 +401,8 @@ $gohan = new Gohan();
 $buu = new Buu();
 $trunks = new Trunks();
 $broly = new Broly();
-$a = 0;
 
-while ($a == 0) {
+while ($jeu->getCombat() <= 10) {
     echo popen("cls", "w");
     echo "Que souhaites-tu faire ?\n\n1 - Jouer\n2 - Voir les personnages\n3 - Règle\n4 - Statistiques\n5 - Quitter\n";
     $choice = readline("> ");
@@ -435,6 +434,11 @@ while ($a == 0) {
                         echo "combat 3";
                         break;
                 }
+
+                $save_content = "Combats: " . $jeu->getCombat() . " Victoires: " . $jeu->getVictoire() . " Defaites: " . $jeu->getDefaite();
+                $file = fopen("save.txt", "wb");
+                fwrite($file, $save_content);
+                fclose($file);
             }
 
             $jeu->verifVictoire();
@@ -466,7 +470,7 @@ while ($a == 0) {
                     break;
                 case 5:
                     popen("cls", "w");
-                    $a = 1;
+                    $jeu->setCombat(11);
                     break;
                 default:
                     echo "Ce n'est pas disponible !\n";
@@ -496,7 +500,7 @@ while ($a == 0) {
             break;
         case 5:
             popen("cls", "w");
-            $a = 1;
+            $jeu->setCombat(11);
             break;
         default:
             echo "Ce n'est pas disponible !";
