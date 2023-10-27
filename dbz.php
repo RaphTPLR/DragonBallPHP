@@ -40,6 +40,14 @@ class Personnages
         return $this->attacks;
     }
 
+    public function setAttacks($newAttacks) {
+        array_push($this->attacks, $newAttacks);
+    }
+
+    public function getBonus() {
+        return $this->bonus;
+    }
+
     public function Attack($enemie, $attack)
     {
         $pv = $enemie->getPv();
@@ -88,7 +96,7 @@ class Goku extends Hero
         $this->pv = 100;
         $this->attaque_hero = "";
         $this->attacks = [["coup de poing", $this->puissance], ["kamehameha", 50]];
-        $this->bonus = [["genkidama"]];
+        $this->bonus = ["genkidama", 90];
     }
 }
 class Vegeta extends Hero
@@ -100,7 +108,7 @@ class Vegeta extends Hero
         $this->pv = 100;
         $this->attaque_hero = "";
         $this->attacks = [["coup de poing marteau", $this->puissance], ["canon garric", 50]];
-        $this->bonus = [["final flash"]];
+        $this->bonus = ["final flash", 85];
 
     }
 }
@@ -125,7 +133,7 @@ class Cell extends Vilain
         $this->pv = 100;
         $this->attaque_vilain = "";
         $this->attacks = [["coup de queue", $this->puissance], ["aspiration", 50]];
-        $this->bonus = [["super kamehameha"]];
+        $this->bonus = ["super kamehameha", 80];
     }
 }
 
@@ -133,9 +141,11 @@ class Display
 {
     private $victoire;
     private $defaite;
+    private $combat;
     public function __construct() {
         $this->victoire = 0;
         $this->defaite = 0;
+        $this->combat = 0;
     }
 
     public function Combat($allie, $enemie, $current_combat)
@@ -162,15 +172,22 @@ class Display
                             $choice = readline("> ");
 
                             popen("cls", "w");
-                            echo $allie->getNom(), " utilise ", $allie->getAttacks()[$choice - 1][0], " !\n", $allie->getNom(), " à infligé ",
+                            echo $allie->getNom(), " utilise ", $allie->getAttacks()[$choice - 1][0], " !\n\n", $allie->getNom(), " à infligé ",
                                 $allie->getAttacks()[$choice - 1][1], " à ", $enemie->getNom();
+
                             $allie->Attack($enemie, $allie->getAttacks()[$choice - 1][1]);
+                            sleep(2);                            
 
                             if ($enemie->getPv() > 0) {
-                                $enemie->Attack($allie, $enemie->getAttacks()[$choice - 1][1]);
-                            }
+                                popen("cls", "w");
+                                $rand = random_int(1, 2);
+                                echo $enemie->getNom(), " utilise ", $enemie->getAttacks()[$rand - 1][0], " !\n\n", $enemie->getNom(), " à infligé ",
+                                $enemie->getAttacks()[$rand - 1][1], " à ", $allie->getNom();
 
-                            sleep(1);                            
+                                $enemie->Attack($allie, $enemie->getAttacks()[$rand - 1][1]);
+
+                                sleep(2);
+                            }
 
                             if ($allie->getPv() <= 0) {
                                 popen("cls", "w");
@@ -192,11 +209,12 @@ class Display
                     break;
                 case 3 :
                     return $abandon = true;
-                default :
+                    default :
                     echo "Ceci n'est pas disponible !\n";
             }
         }
-
+                    
+        $this->setCombat($this->getCombat() + 1);
         if ($compt == 0) {
             return;
         }
@@ -218,6 +236,14 @@ class Display
 
     public function setDefaite($newDefaite) {
         $this->defaite = $newDefaite;
+    }
+
+    public function getCombat() {
+        return $this->combat;
+    }
+
+    public function setCombat($newCombat) {
+        $this->combat = $newCombat;
     }
 
     public function verifVictoire() {
@@ -261,9 +287,16 @@ while ($a == 0) {
                 switch ($current_combat) {
                     case 1:
                         $jeu->Combat($goku, $freezer, $current_combat);
+                        if ($jeu->getCombat() == 1) {
+                            $goku->setAttacks($goku->getBonus());
+                        }
                         break;
                     case 2:
                         $jeu->Combat($vegeta, $cell, $current_combat);
+
+                        if ($jeu->getCombat() == 2) {
+                            $vegeta->setAttacks($vegeta->getBonus());
+                        }
                         break;
                     case 3:
                         echo "combat 3";
@@ -314,15 +347,16 @@ while ($a == 0) {
         case 4:
             popen("cls", "w");
             if ($jeu->getVictoire() == 0 && $jeu->getDefaite() == 0) {
-                echo "Statistiques\n\nVictoire : 0\nDefaite : 0\nRatio (V/D) : NA";
+                echo "Statistiques\n\nCombat : 0\nVictoire : 0\nDefaite : 0\nRatio (V/D) : NA";
             } else if ($jeu->getVictoire() == 0 && $jeu->getDefaite() > 0) {
-                echo "Statistiques\n\nVictoire : 0\nDefaite : ", $jeu->getDefaite(), "\nRatio (V/D) : 0";
+                echo "Statistiques\n\nCombat : ", $jeu->getCombat() ,"\nVictoire : 0\nDefaite : ", $jeu->getDefaite(),
+                    "\nRatio (V/D) : 0";
             } else if ($jeu->getVictoire() > 0 && $jeu->getDefaite() == 0) {
-                echo "Statistiques\n\nVictoire : ", $jeu->getVictoire(), "\nDefaite : 0\nRatio (V/D) : ",
-                    $jeu->getVictoire(), "\n";
+                echo "Statistiques\n\nCombat : ", $jeu->getCombat() ,"\nVictoire : ", $jeu->getVictoire(),
+                    "\nDefaite : 0\nRatio (V/D) : ", $jeu->getVictoire(), "\n";
             } else {
-                echo "Statistiques\n\nVictoire : ", $jeu->getVictoire(), "\nDefaite : ", $jeu->getDefaite(), "\nRatio (V/D) : ",
-                    $jeu->getVictoire()/$jeu->getDefaite(), "\n";
+                echo "Statistiques\n\nCombat : ", $jeu->getCombat() ,"\nVictoire : ", $jeu->getVictoire(),
+                    "\nDefaite : ", $jeu->getDefaite(), "\nRatio (V/D) : ", $jeu->getVictoire()/$jeu->getDefaite(), "\n";
             }
             echo "\n\nAppuie sur une touche pour quitter\n";
             readline("> ");
