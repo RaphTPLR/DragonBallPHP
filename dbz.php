@@ -110,7 +110,7 @@ class Vegeta extends Hero
         $this->pv = 100;
         $this->default_pv = 100;
         $this->attaque_hero = "";
-        $this->attacks = [["Coup de poing marteau", $this->puissance], ["Canon Garric", 50]];
+        $this->attacks = [["Coup de poing marteau" , $this->puissance], ["Canon Garric", 50]];
         $this->bonus = ["Final Flash", 85];
 
     }
@@ -124,8 +124,8 @@ class Freezer extends Vilain
         $this->pv = 100;
         $this->default_pv = 100;
         $this->attaque_vilain = "";
-        $this->attacks = [["coup de queue", $this->puissance], ["boule de la mort", 50]];
-        $this->bonus = ["supernova", 95];
+        $this->attacks = [["Coup De Queue", $this->puissance], ["Boule De La Mort", 50]];
+        $this->bonus = ["Supernova", 95];
     }
 }
 class Cell extends Vilain
@@ -137,7 +137,7 @@ class Cell extends Vilain
         $this->pv = 100;
         $this->default_pv = 100;
         $this->attaque_vilain = "";
-        $this->attacks = [["coup de queue", $this->puissance], ["aspiration", 50]];
+        $this->attacks = [["Coup De Queue", $this->puissance], ["Aspiration", 50]];
         $this->bonus = ["super kamehameha", 100];
     }   
 }
@@ -150,8 +150,8 @@ class Gohan extends Hero
         $this->puissance = 15;
         $this->pv = 100;
         $this->default_pv = 100;
-        $this->attaque_hero = [[" enchainement saiyan hybride", $this->puissance],["mazenko",50]];
-        $this->bonus = ["kamehameha pere-fils", 100];
+        $this->attaque_hero = [[" Enchainement Saiyan Hybride", $this->puissance],["Mazenko", 50]];
+        $this->bonus = ["Kamehameha Pere-Fils", 100];
     }     
     
 }
@@ -163,8 +163,8 @@ class Satan extends Hero
         $this->puissance = 18;
         $this->pv = 1;
         $this->default_pv = 100;
-        $this->attaque_hero = [["lancer de canette",1],["feu d'artifice", 2]];
-        $this->bonus = ["lance rocket", 5];
+        $this->attaque_hero = [["Lancer de canette",1],["Feu D'artifice", 2]];
+        $this->bonus = ["Lance-Rocket", 5];
     }     
     
 }
@@ -176,8 +176,8 @@ class Beerus extends Hero
         $this->puissance = 30;
         $this->pv = 100;
         $this->default_pv = 100;
-        $this->attaque_hero = [["coup divin",100]];
-        $this->bonus = ["hakai", 999];
+        $this->attaque_hero = [["Coup Divin", 100]];
+        $this->bonus = ["Hakai", 999];
     }     
     
 }
@@ -189,8 +189,8 @@ class Buu extends Vilain
         $this->puissance = 24;
         $this->pv = 100;
         $this->default_pv = 100;
-        $this->attaque_hero = [["coup longue distance",100]];
-        $this->bonus = ["raffale boule d'energie",75];
+        $this->attaque_hero = [["Coup Longue Distance", 100]];
+        $this->bonus = ["Raffale Boule d'Energie", 75];
     }     
     
 }
@@ -198,25 +198,25 @@ class Trunks extends Hero
 {
 
     public function __construct() {
-        $this->nom = "trunks";
+        $this->nom = "Trunks";
         $this->puissance = 21;
         $this->pv = 100;
         $this->default_pv = 100;
-        $this->attaque_hero = [["coup d'epée",25]];
-        $this->bonus = ["burning attack", 50];
+        $this->attaque_hero = [["Coup d'Epée", 25]];
+        $this->bonus = ["Burning Attack", 50];
     }     
-    
+     
 }
 class Broly extends Vilain
 {
 
     public function __construct() {
-        $this->nom = "broly";
+        $this->nom = "Broly";
         $this->puissance = 22;
         $this->pv = 100;
         $this->default_pv = 100;
-        $this->attaque_hero = [["coup enragée", 50],["eraser cannon", 60]];
-        $this->bonus = ["meteor géant", 100];
+        $this->attaque_hero = [["Coup enragée", 50],["Eraser Cannon", 60]];
+        $this->bonus = ["Meteor Géant", 100];
     }     
 }    
 class Display
