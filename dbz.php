@@ -132,8 +132,10 @@ class Cell extends Vilain
 class Display
 {
     private $victoire;
+    private $defaite;
     public function __construct() {
         $this->victoire = 0;
+        $this->defaite = 0;
     }
 
     public function Combat($allie, $enemie, $current_combat)
@@ -173,11 +175,13 @@ class Display
                             if ($allie->getPv() <= 0) {
                                 popen("cls", "w");
                                 $allie->Mourir();
+                                $this->setDefaite($this->getDefaite() + 1);
                                 sleep(1);
                                 $compt = 1;
                             } else if ($enemie->getPv() <= 0) {
                                 popen("cls", "w");
                                 $enemie->Mourir();
+                                $this->setDefaite($this->getDefaite() + 1);
                                 sleep(1);
                                 $compt = 1;
                             }
@@ -208,6 +212,14 @@ class Display
         $this->victoire = $newVictoire;
     }
 
+    public function getDefaite() {
+        return $this->defaite;
+    }
+
+    public function setDefaite($newDefaite) {
+        $this->defaite = $newDefaite;
+    }
+
     public function verifVictoire() {
         if ($this->getVictoire() > 10) {
             popen("cls","w");
@@ -234,7 +246,7 @@ $a = 0;
 
 while ($a == 0) {
     echo popen("cls", "w");
-    echo "Que souhaites-tu faire ?\n\n1 - Jouer\n2 - Voir les personnages\n3 - Règle\n4 - Quitter";
+    echo "Que souhaites-tu faire ?\n\n1 - Jouer\n2 - Voir les personnages\n3 - Règle\n4 - Statistiques\n5 - Quitter\n";
     $choice = readline("> ");
     $current_combat = 0;
     global $abandon;
@@ -300,6 +312,22 @@ while ($a == 0) {
             readline("> ");
             break;
         case 4:
+            popen("cls", "w");
+            if ($jeu->getVictoire() == 0 && $jeu->getDefaite() == 0) {
+                echo "Statistiques\n\nVictoire : 0\nDefaite : 0\nRatio (V/D) : NA";
+            } else if ($jeu->getVictoire() == 0 && $jeu->getDefaite() > 0) {
+                echo "Statistiques\n\nVictoire : 0\nDefaite : ", $jeu->getDefaite(), "\nRatio (V/D) : 0";
+            } else if ($jeu->getVictoire() > 0 && $jeu->getDefaite() == 0) {
+                echo "Statistiques\n\nVictoire : ", $jeu->getVictoire(), "\nDefaite : 0\nRatio (V/D) : ",
+                    $jeu->getVictoire(), "\n";
+            } else {
+                echo "Statistiques\n\nVictoire : ", $jeu->getVictoire(), "\nDefaite : ", $jeu->getDefaite(), "\nRatio (V/D) : ",
+                    $jeu->getVictoire()/$jeu->getDefaite(), "\n";
+            }
+            echo "\n\nAppuie sur une touche pour quitter\n";
+            readline("> ");
+            break;
+        case 5:
             popen("cls", "w");
             $a = 1;
             break;
