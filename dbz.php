@@ -93,12 +93,12 @@ class Goku extends Hero
     public function __construct()
     {
         $this->nom = "Goku";
-        $this->puissance = 25;
-        $this->pv = 100;
-        $this->default_pv = 100;
+        $this->puissance = 20;
+        $this->pv = 225;
+        $this->default_pv = 225;
         $this->attaque_hero = "";
-        $this->attacks = [["Coup de poing", $this->puissance], ["Kamehameha", 50]];
-        $this->bonus = ["Genkidama", 90];
+        $this->attacks = [["Coup de poing", $this->puissance],["boule d'energie",50], ["Kamehameha", 100]];
+        $this->bonus = ["Genkidama", 200];
     }
 }
 class Vegeta extends Hero
@@ -106,12 +106,12 @@ class Vegeta extends Hero
     public function __construct()
     {
         $this->nom = "Vegeta";
-        $this->puissance = 100;
-        $this->pv = 100;
-        $this->default_pv = 100;
+        $this->puissance = 20;
+        $this->pv = 225;
+        $this->default_pv = 225;
         $this->attaque_hero = "";
-        $this->attacks = [["Coup de poing marteau" , $this->puissance], ["Canon Garric", 50]];
-        $this->bonus = ["Final Flash", 85];
+        $this->attacks = [["Coup de poing marteau" , $this->puissance],["boule d'energie", 50], ["Canon Garric", 100]];
+        $this->bonus = ["Final Flash", 150];
 
     }
 }
@@ -120,12 +120,12 @@ class Freezer extends Vilain
     public function __construct()
     {
         $this->nom = "Freezer";
-        $this->puissance = 1;
-        $this->pv = 100;
-        $this->default_pv = 100;
+        $this->puissance = 20;
+        $this->pv = 300;
+        $this->default_pv = 300;
         $this->attaque_vilain = "";
-        $this->attacks = [["Coup De Queue", $this->puissance], ["Boule De La Mort", 50]];
-        $this->bonus = ["Supernova", 95];
+        $this->attacks = [["Coup De Queue", $this->puissance],["boule d'energie", 50], ["Boule De La Mort", 120]];
+        $this->bonus = ["Supernova", 140];
     }
 }
 class Cell extends Vilain
@@ -133,12 +133,12 @@ class Cell extends Vilain
     public function __construct()
     {
         $this->nom = "Cell";
-        $this->puissance = 100;
-        $this->pv = 100;
-        $this->default_pv = 100;
+        $this->puissance = 20;
+        $this->pv = 500;
+        $this->default_pv = 500;
         $this->attaque_vilain = "";
-        $this->attacks = [["Coup De Queue", $this->puissance], ["Aspiration", 50]];
-        $this->bonus = ["super kamehameha", 100];
+        $this->attacks = [["Coup De Queue", $this->puissance],["boule d'energie", 50], ["Aspiration", 120]];
+        $this->bonus = ["super kamehameha", 170];
     }   
 }
 
@@ -147,11 +147,11 @@ class Gohan extends Hero
 
     public function __construct() {
         $this->nom = "Gohan";
-        $this->puissance = 15;
-        $this->pv = 100;
-        $this->default_pv = 100;
-        $this->attacks = [[" Enchainement Saiyan Hybride", $this->puissance],["Mazenko", 50]];
-        $this->bonus = ["Kamehameha Pere-Fils", 100];
+        $this->puissance = 20;
+        $this->pv = 210;
+        $this->default_pv = 200;
+        $this->attacks = [["Enchainement Saiyan Hybride",["boule d'energie", 50] ,$this->puissance],["Mazenko", 75]];
+        $this->bonus = ["Kamehameha Pere-Fils", 190];
     }     
     
 }
@@ -160,10 +160,10 @@ class Satan extends Hero
 
     public function __construct() {
         $this->nom = "Satan";
-        $this->puissance = 18;
+        $this->puissance = 1;
         $this->pv = 1;
-        $this->default_pv = 100;
-        $this->attacks = [["Lancer de canette",1],["Feu D'artifice", 2]];
+        $this->default_pv = 1;
+        $this->attacks = [["coup en traitre",$this->puissance],["lancer de cannette",50],["Feu D'artifice", 2]];
         $this->bonus = ["Lance-Rocket", 5];
     }     
     
@@ -173,9 +173,9 @@ class Beerus extends Vilain
 
     public function __construct() {
         $this->nom = "Beerus";
-        $this->puissance = 30;
-        $this->pv = 100;
-        $this->default_pv = 100;
+        $this->puissance = 999;
+        $this->pv = 999;
+        $this->default_pv = 999;
         $this->attacks = [["Coup Divin", 999]];
         $this->bonus = ["Hakai", 999];
     }     
@@ -186,11 +186,11 @@ class Buu extends Vilain
 
     public function __construct() {
         $this->nom = "Buu";
-        $this->puissance = 24;
-        $this->pv = 100;
-        $this->default_pv = 100;
-        $this->attacks = [["Coup Longue Distance", 100]];
-        $this->bonus = ["Raffale Boule d'Energie", 75];
+        $this->puissance = 20;
+        $this->pv = 600;
+        $this->default_pv = 600;
+        $this->attacks = [["Coup Longue Distance", $this->puissance],["boule d'energie",50],[" boule d'antivie", 130]];
+        $this->bonus = ["Raffale Boule d'Energie", 150];
     }     
     
 }
@@ -199,11 +199,11 @@ class Trunks extends Hero
 
     public function __construct() {
         $this->nom = "Trunks";
-        $this->puissance = 21;
-        $this->pv = 100;
-        $this->default_pv = 100;
-        $this->attacks = [["Coup d'Epée", 25]];
-        $this->bonus = ["Burning Attack", 50];
+        $this->puissance = 20;
+        $this->pv = 200;
+        $this->default_pv = 190;
+        $this->attacks = [["Coup d'Epée", $this->puissance],["boule d'energie", 50],["buster cannon",75]];
+        $this->bonus = ["Burning Attack", 150];
     }     
      
 }
@@ -212,11 +212,11 @@ class Broly extends Vilain
 
     public function __construct() {
         $this->nom = "Broly";
-        $this->puissance = 22;
-        $this->pv = 100;
-        $this->default_pv = 100;
-        $this->attacks = [["Coup enragée", 50],["Eraser Cannon", 60]];
-        $this->bonus = ["Meteor Géant", 100];
+        $this->puissance = 20;
+        $this->pv = 400;
+        $this->default_pv = 400;
+        $this->attacks = [["Coup enragée",$this->puissance ],["boule d'energie",50],["Eraser Cannon", 120]];
+        $this->bonus = ["Meteor Géant", 180];
     }     
 }    
 class Display
@@ -245,7 +245,6 @@ class Display
                     for ($i = 0; $i < $current_combat; $i++) {
                             popen("cls", "w");
                             echo "Combat ", $current_combat, "\n\n", $allie->getNom(), " VS ", $enemie->getNom(), "\n\n";
-
                             for ($i = 0; $i < count($allie->getAttacks()); $i++) {
                                 echo $i + 1, " - ", $allie->getAttacks()[$i][0], " (", $allie->getAttacks()[$i][1], ")\n";
                             }
@@ -294,7 +293,7 @@ class Display
                     break;
                 case 2 :
                     popen("cls", "w");
-                    if ($enemie->getnom()!= "Beerus"){
+                    if ($enemie->getnom()!= "Beerus" && "Buu"){
                     echo $allie->getNom() ," esquive !\n";
                     sleep(2);
 
@@ -308,10 +307,11 @@ class Display
                     }
                     sleep(2);
                     }
-                   elseif ($enemie->getNom()== "Beerus"){
-                        echo" l'esquive de: ", $allie->getNom();
+                   else if ($enemie->getNom()== "Beerus" && "Buu"){
+                        echo" l'esquive de: ", $allie->getNom()," a raté ";
                         sleep(2);
                     }
+
                     break;
                 case 3 :
                     return $abandon = true;
@@ -419,7 +419,7 @@ while ($a == 0) {
             break;
         case 2:
             popen("cls", "w");
-            echo "Qui souhaites-tu voir ?\n1 - Goku\n2 - Vegeta\n3 - Freezer\n4 - Cell\n5 - Quitter\n\n";
+            echo "Qui souhaites-tu voir ?\n1 - Goku\n2 - Vegeta\n3 - Freezer\n4 - Cell\n5 - Broly\n6 - Satan\n7 - Beerus\n8 - Gohan\n9 - Buu\10 - trunks\n11  - Quitter\n\n";
             $choice = readline("> ");
             switch ($choice) {
                 case 1:
@@ -444,8 +444,35 @@ while ($a == 0) {
                     break;
                 case 5:
                     popen("cls", "w");
-                    $a = 1;
+                    echo $broly->getNom(), "\n\nPV : ", $broly->getPv(), "\nPUISSANCE :", $broly->getPuissance(), "\n\n1 - Quitter\n";
+                    readline("> ");
+                    break; 
+                case 6:
+                    popen("cls", "w");
+                    echo $satan->getNom(), "\n\nPV :SECRET ", "\nPUISSANCE : SECRET ","\n\n1 - Quitter\n";
+                    readline("> ");
                     break;
+                case 7:
+                    popen("cls", "w");
+                    echo $beerus->getNom(), "\n\nPV :  SECRET", "\nPUISSANCE : SECRET\n\n1 - Quitter\n";
+                    readline("> ");
+                    break;
+                case 8:
+                    popen("cls", "w");
+                    echo $gohan->getNom(), "\n\nPV : ", $gohan->getPv(), "\nPUISSANCE :", $gohan->getPuissance(), "\n\n1 - Quitter\n";
+                    readline("> ");
+                    break;
+                case 9:
+                    popen("cls", "w");
+                    echo $buu->getNom(), "\n\nPV : ", $buu->getPv(), "\nPUISSANCE :", $buu->getPuissance(), "\n\n1 - Quitter\n";
+                    readline("> ");
+                    break;
+                case 10:
+                    popen("cls", "w");
+                    echo $trunks->getNom(), "\n\nPV : ", $trunks->getPv(), "\nPUISSANCE :", $trunks->getPuissance(), "\n\n1 - Quitter\n";
+                    readline("> ");
+                case 11:   
+                    break;             
                 default:
                     echo "Ce n'est pas disponible !\n";
             }
