@@ -150,7 +150,7 @@ class Gohan extends Hero
         $this->puissance = 15;
         $this->pv = 100;
         $this->default_pv = 100;
-        $this->attaque_hero = [[" Enchainement Saiyan Hybride", $this->puissance],["Mazenko", 50]];
+        $this->attacks = [[" Enchainement Saiyan Hybride", $this->puissance],["Mazenko", 50]];
         $this->bonus = ["Kamehameha Pere-Fils", 100];
     }     
     
@@ -163,7 +163,7 @@ class Satan extends Hero
         $this->puissance = 18;
         $this->pv = 1;
         $this->default_pv = 100;
-        $this->attaque_hero = [["Lancer de canette",1],["Feu D'artifice", 2]];
+        $this->attacks = [["Lancer de canette",1],["Feu D'artifice", 2]];
         $this->bonus = ["Lance-Rocket", 5];
     }     
     
@@ -176,7 +176,7 @@ class Beerus extends Hero
         $this->puissance = 30;
         $this->pv = 100;
         $this->default_pv = 100;
-        $this->attaque_hero = [["Coup Divin", 100]];
+        $this->attacks = [["Coup Divin", 100], ["Feu D'art", 50]];
         $this->bonus = ["Hakai", 999];
     }     
     
@@ -189,7 +189,7 @@ class Buu extends Vilain
         $this->puissance = 24;
         $this->pv = 100;
         $this->default_pv = 100;
-        $this->attaque_hero = [["Coup Longue Distance", 100]];
+        $this->attacks = [["Coup Longue Distance", 100]];
         $this->bonus = ["Raffale Boule d'Energie", 75];
     }     
     
@@ -202,7 +202,7 @@ class Trunks extends Hero
         $this->puissance = 21;
         $this->pv = 100;
         $this->default_pv = 100;
-        $this->attaque_hero = [["Coup d'Epée", 25]];
+        $this->attacks = [["Coup d'Epée", 25]];
         $this->bonus = ["Burning Attack", 50];
     }     
      
@@ -215,7 +215,7 @@ class Broly extends Vilain
         $this->puissance = 22;
         $this->pv = 100;
         $this->default_pv = 100;
-        $this->attaque_hero = [["Coup enragée", 50],["Eraser Cannon", 60]];
+        $this->attacks = [["Coup enragée", 50],["Eraser Cannon", 60]];
         $this->bonus = ["Meteor Géant", 100];
     }     
 }    
@@ -262,11 +262,17 @@ class Display
 
                             if ($enemie->getPv() > 0) {
                                 popen("cls", "w");
-                                $rand = random_int(1, 2);
-                                echo $enemie->getNom(), " utilise ", $enemie->getAttacks()[$rand - 1][0], " !\n\n", $enemie->getNom(), " à infligé ",
-                                $enemie->getAttacks()[$rand - 1][1], " à ", $allie->getNom();
+                                $rand = random_int(1, count($enemie->getAttacks()) + 1);
 
-                                $enemie->Attack($allie, $enemie->getAttacks()[$rand - 1][1]);
+                                if ($rand < count($enemie->getAttacks())) {
+                                    echo $enemie->getNom(), " utilise ", $enemie->getAttacks()[$rand - 1][0], " !\n\n", $enemie->getNom(), " à infligé ",
+                                    $enemie->getAttacks()[$rand - 1][1], " à ", $allie->getNom();
+    
+                                    $enemie->Attack($allie, $enemie->getAttacks()[$rand - 1][1]);
+                                } else if ($rand == count($enemie->getAttacks())) { 
+                                    echo $enemie->getNom(), " à esquivé l'attaque de ", $allie->getNom(), "!\n";
+                                    $enemie->setPv($enemie->getPv() + $allie->getAttacks()[$choice - 1][1]);
+                                }
 
                                 sleep(2);
                             }
@@ -292,10 +298,13 @@ class Display
                     sleep(2);
 
                     popen("cls", "w");
-                    $rand = random_int(1, 2);
-                    
-                    echo $enemie->getNom(), " utilise ", $enemie->getAttacks()[$rand - 1][0], " !\n\nMais ", $allie->getNom(), " à esquivé !\n\n" ,
-                        $enemie->getNom(), " à infligé 0 de dégats à ", $allie->getNom();
+                    $rand = random_int(1, count($enemie->getAttacks()));
+                    if ($rand < count($enemie->getAttacks())) {
+                        echo $enemie->getNom(), " utilise ", $enemie->getAttacks()[$rand - 1][0], " !\n\nMais ", $allie->getNom(), " à esquivé !\n\n" ,
+                            $enemie->getNom(), " à infligé 0 de dégats à ", $allie->getNom();
+                    } else if ($rand == count($enemie->getAttacks())) {
+                        echo $enemie->getNom()," à esquivé aussi !\n";
+                    }
                     sleep(2);
                     break;
                 case 3 :
@@ -382,7 +391,7 @@ while ($a == 0) {
                 $current_combat++;
                 switch ($current_combat) {
                     case 1:
-                        $jeu->Combat($goku, $freezer, $current_combat);
+                        $jeu->Combat($goku, $beerus, $current_combat);
                         if ($jeu->getCombat() == 1) {
                             $goku->setAttacks($goku->getBonus());
                         }
