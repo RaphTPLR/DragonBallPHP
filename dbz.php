@@ -30,6 +30,11 @@ class Personnages
         return $this->puissance;
     }
 
+    public function setPuissance($newPuissance)
+    {
+        $this->puissance = $newPuissance;
+    }
+
     public function getPv()
     {
         return $this->pv;
@@ -55,7 +60,8 @@ class Personnages
         return $this->bonus;
     }
 
-    public function getDefaultPV() {
+    public function getDefaultPV()
+    {
         return $this->default_pv;
     }
 
@@ -115,7 +121,7 @@ class Goku extends Hero
         $this->pv = 225;
         $this->default_pv = 225;
         $this->attaque_hero = "";
-        $this->attacks = [["Coup de Poing", $this->puissance],["Boule d'energie",50], ["Kamehameha", 100]];
+        $this->attacks = [["Coup de Poing", $this->puissance], ["Boule d'energie", 50], ["Kamehameha", 100]];
         $this->bonus = ["Genkidama", 200];
     }
 }
@@ -128,7 +134,7 @@ class Vegeta extends Hero
         $this->pv = 225;
         $this->default_pv = 225;
         $this->attaque_hero = "";
-        $this->attacks = [["Coup de Poing marteau" , $this->puissance],["Boule d'energie", 50], ["Canon Garric", 100]];
+        $this->attacks = [["Coup de Poing marteau", $this->puissance], ["Boule d'energie", 50], ["Canon Garric", 100]];
         $this->bonus = ["Final Flash", 150];
 
     }
@@ -142,7 +148,7 @@ class Freezer extends Vilain
         $this->pv = 300;
         $this->default_pv = 300;
         $this->attaque_vilain = "";
-        $this->attacks = [["Coup De Queue", $this->puissance],["Boule d'energie", 50], ["Boule De La Mort", 120]];
+        $this->attacks = [["Coup De Queue", $this->puissance], ["Boule d'energie", 50], ["Boule De La Mort", 120]];
         $this->bonus = ["Supernova", 140];
     }
 }
@@ -155,9 +161,9 @@ class Cell extends Vilain
         $this->pv = 500;
         $this->default_pv = 500;
         $this->attaque_vilain = "";
-        $this->attacks = [["Coup De Queue", $this->puissance],["Boule d'energie", 50], ["Aspiration", 120]];
+        $this->attacks = [["Coup De Queue", $this->puissance], ["Boule d'energie", 50], ["Aspiration", 120]];
         $this->bonus = ["super kamehameha", 170];
-    }   
+    }
 }
 
 class Gohan extends Hero
@@ -171,8 +177,8 @@ class Gohan extends Hero
         $this->default_pv = 200;
         $this->attacks = [["Enchainement Saiyan Hybride", $this->puissance], ["Boule d'energie", 50], ["Mazenko", 75]];
         $this->bonus = ["Kamehameha Pere-Fils", 190];
-    }     
-    
+    }
+
 }
 class Satan extends Hero
 {
@@ -183,7 +189,7 @@ class Satan extends Hero
         $this->puissance = 1;
         $this->pv = 1;
         $this->default_pv = 1;
-        $this->attacks = [["coup en traitre",$this->puissance],["lancer de cannette",50],["Feu D'artifice", 2]];
+        $this->attacks = [["coup en traitre", $this->puissance], ["lancer de cannette", 50], ["Feu D'artifice", 2]];
         $this->bonus = ["Lance-Rocket", 5];
     }
 
@@ -211,10 +217,10 @@ class Buu extends Vilain
         $this->puissance = 20;
         $this->pv = 600;
         $this->default_pv = 600;
-        $this->attacks = [["Coup Longue Distance", $this->puissance],["Boule d'energie",50],[" Boule d'entivie", 130]];
+        $this->attacks = [["Coup Longue Distance", $this->puissance], ["Boule d'energie", 50], [" Boule d'entivie", 130]];
         $this->bonus = ["Raffale Boule d'energie", 150];
-    }     
-    
+    }
+
 }
 class Trunks extends Hero
 {
@@ -225,10 +231,10 @@ class Trunks extends Hero
         $this->puissance = 20;
         $this->pv = 200;
         $this->default_pv = 190;
-        $this->attacks = [["Coup d'Epée", $this->puissance],["Boule d'energie", 50],["buster cannon",75]];
+        $this->attacks = [["Coup d'Epée", $this->puissance], ["Boule d'energie", 50], ["buster cannon", 75]];
         $this->bonus = ["Burning Attack", 150];
-    }     
-     
+    }
+
 }
 class Broly extends Vilain
 {
@@ -239,10 +245,10 @@ class Broly extends Vilain
         $this->puissance = 20;
         $this->pv = 400;
         $this->default_pv = 400;
-        $this->attacks = [["Coup enragée",$this->puissance ],["Boule d'energie",50],["Eraser Cannon", 120]];
+        $this->attacks = [["Coup enragée", $this->puissance], ["Boule d'energie", 50], ["Eraser Cannon", 120]];
         $this->bonus = ["Meteor Géant", 180];
-    }     
-}    
+    }
+}
 class Display
 {
     // PRIVATE AS WE ONLY USE THESE VARIABLES IN THE DISPLAY CLASS
@@ -265,6 +271,13 @@ class Display
         while ($compt == 0) {
             // TEXT COMBAT BLINKING (EFFECT)
             popen("cls", "w");
+
+            // SPECIAL EVENT
+            if ($allie->getNom() == "Satan" && $enemie->getNom() == "Beerus") {
+                $allie->setPv(999999);
+                $allie->setAttacks(["GROSSE CANETTE", 999999]);
+            }
+
             echo "\e[0;34mCombat ", $current_combat, "\n\n", $allie->getNom(), " (PV :", $allie->getPv(), ") \e[0mVS \e[0;31m",
                 $enemie->getNom(), " (PV :", $enemie->getPv(), ")\e[0m\n";
             sleep(1);
@@ -272,6 +285,7 @@ class Display
             echo "Combat ", $current_combat, "\n\n\e[0;34m", $allie->getNom(), " (PV :", $allie->getPv(), ") \e[0mVS \e[0;31m",
                 $enemie->getNom(), " (PV :", $enemie->getPv(), ")\e[0m\n";
             sleep(1);
+
             echo "\n\nQue voulez vous faire ?\n\n1 - Attaquer\n2 - Esquiver\n3 - Abandonner\n";
             $choice = readline("> ");
             switch ($choice) {
@@ -473,17 +487,17 @@ while ($jeu->getCombat() <= 10) {
     $abandon = false;
     switch ($choice) {
         case 1:
-            popen("cls","w");
+            popen("cls", "w");
 
             // CREATE RANDOM ENEMIES WITH THE VILAIN LIST
-            $rand1 = random_int(0, count($list_speciale)-1);
-            $rand3 = random_int(0, count($list_speciale)-1);
-            $rand2 = random_int(0, count($list_speciale)-1);
-            while ($rand2 == $rand1) { 
-                $rand2 = random_int(0, count($list_speciale)-1);
+            $rand1 = random_int(0, count($list_speciale) - 1);
+            $rand3 = random_int(0, count($list_speciale) - 1);
+            $rand2 = random_int(0, count($list_speciale) - 1);
+            while ($rand2 == $rand1) {
+                $rand2 = random_int(0, count($list_speciale) - 1);
             }
-            while ($rand3 == $rand1 && $rand3 == $rand2) { 
-                $rand3 = random_int(0, count($list_speciale)-1);
+            while ($rand3 == $rand1 && $rand3 == $rand2) {
+                $rand3 = random_int(0, count($list_speciale) - 1);
             }
 
             $enemie1 = $list_speciale[$rand1];
@@ -493,25 +507,27 @@ while ($jeu->getCombat() <= 10) {
             echo "Comment souhaites-tu faire ton équipe ?\n\n1 - Aléatoirement\n2 - Choisir les 3 personnages\n3 - Quitter\n";
             $choice = readline("> ");
             switch ($choice) {
-                case 1 :
-                    popen("cls","w");
-                        $rand1 = random_int(0, count($list_normal)-1);
-                        $rand3 = random_int(0, count($list_normal)-1);
-                        $rand2 = random_int(0, count($list_normal)-1);
+                case 1:
+                    popen("cls", "w");
+                    // CREATE RANDOM ENEMIES WITH THE HERO LIST
+                    $rand1 = random_int(0, count($list_normal) - 1);
+                    $rand3 = random_int(0, count($list_normal) - 1);
+                    $rand2 = random_int(0, count($list_normal) - 1);
 
-                        while ($rand2 == $rand1) { 
-                            $rand2 = random_int(0, count($list_normal)-1);
-                        }
-                        while ($rand3 == $rand1 && $rand3 == $rand2) { 
-                            $rand3 = random_int(0, count($list_normal)-1);
-                        }
+                    while ($rand2 == $rand1) {
+                        $rand2 = random_int(0, count($list_normal) - 1);
+                    }
+                    while ($rand3 == $rand1 && $rand3 == $rand2) {
+                        $rand3 = random_int(0, count($list_normal) - 1);
+                    }
 
-                        $allie1 = $list_normal[$rand1];
-                        $allie2 = $list_normal[$rand2];
-                        $allie3 = $list_normal[$rand3];
+                    $allie1 = $list_normal[$rand1];
+                    $allie2 = $list_normal[$rand2];
+                    $allie3 = $list_normal[$rand3];
                     break;
-                case 2 :
-                    popen("cls","w");
+                case 2:
+                    popen("cls", "w");
+                    // SETUP CHOICE FOR USER
                     for ($i = 0; $i < count($list_normal); $i++) {
                         echo $i + 1, " - ", $list_normal[$i]->getNom(), "\n";
                     }
@@ -523,8 +539,8 @@ while ($jeu->getCombat() <= 10) {
                     $choice = readline("Personnage 3 >");
                     $allie3 = $list_normal[$choice - 1];
                     break;
-                case 3 :
-                    popen("cls","w");
+                case 3:
+                    popen("cls", "w");
                     break;
             }
 
@@ -546,32 +562,32 @@ while ($jeu->getCombat() <= 10) {
                         }
 
                         break;
-                        case 2:
-                            // SAME AS CASE 1
-                            $jeu->Combat($allie2, $enemie2, $current_combat);
-                            
-                            if ($jeu->getCombat() == 2) {
-                                $allie2->setAttacks($allie2->getBonus());
-                            }
-                            
-                            break;
-                            case 3:
-                                // SAME AS CASE 1 & 2
-                                $jeu->Combat($allie3, $enemie3, $current_combat);
-                                
-                                if ($jeu->getCombat() == 3) {
-                                    $allie3->setAttacks($allie3->getBonus());
-                                }
-                                
-                                break;
-                            }
-                            
-                    $allie1->setPv($allie1->getDefaultPV());
-                    $allie2->setPv($allie2->getDefaultPV());
-                    $allie3->setPv($allie3->getDefaultPV());
-                    $enemie1->setPv($enemie1->getDefaultPV());
-                    $enemie2->setPv($enemie2->getDefaultPV());
-                    $enemie3->setPv($enemie3->getDefaultPV());
+                    case 2:
+                        // SAME AS CASE 1
+                        $jeu->Combat($allie2, $enemie2, $current_combat);
+
+                        if ($jeu->getCombat() == 2) {
+                            $allie2->setAttacks($allie2->getBonus());
+                        }
+
+                        break;
+                    case 3:
+                        // SAME AS CASE 1 & 2
+                        $jeu->Combat($allie3, $enemie3, $current_combat);
+
+                        if ($jeu->getCombat() == 3) {
+                            $allie3->setAttacks($allie3->getBonus());
+                        }
+
+                        break;
+                }
+
+                $allie1->setPv($allie1->getDefaultPV());
+                $allie2->setPv($allie2->getDefaultPV());
+                $allie3->setPv($allie3->getDefaultPV());
+                $enemie1->setPv($enemie1->getDefaultPV());
+                $enemie2->setPv($enemie2->getDefaultPV());
+                $enemie3->setPv($enemie3->getDefaultPV());
                 // AT THE END OF EACH FIGHT, THE GAME IS SAVED IN A TXT FILE WITH THE NUMBER OF FIGHTS, THE NUMBER OF VICTORIES AND DEFEATS.
                 $save_content = $jeu->getCombat() . "\n" . $jeu->getVictoire() . "\n" . $jeu->getDefaite();
                 $file = fopen("save.txt", "wb");
@@ -613,10 +629,10 @@ while ($jeu->getCombat() <= 10) {
                     popen("cls", "w");
                     echo $broly->getNom(), "\n\nPV : ", $broly->getPv(), "\nPUISSANCE :", $broly->getPuissance(), "\n\n1 - Quitter\n";
                     readline("> ");
-                    break; 
+                    break;
                 case 6:
                     popen("cls", "w");
-                    echo $satan->getNom(), "\n\nPV :SECRET ", "\nPUISSANCE : SECRET ","\n\n1 - Quitter\n";
+                    echo $satan->getNom(), "\n\nPV :SECRET ", "\nPUISSANCE : SECRET ", "\n\n1 - Quitter\n";
                     readline("> ");
                     break;
                 case 7:
@@ -638,15 +654,15 @@ while ($jeu->getCombat() <= 10) {
                     popen("cls", "w");
                     echo $trunks->getNom(), "\n\nPV : ", $trunks->getPv(), "\nPUISSANCE :", $trunks->getPuissance(), "\n\n1 - Quitter\n";
                     readline("> ");
-                case 11:   
-                    break;             
+                case 11:
+                    break;
                 default:
                     echo "\e[0;31mCe n'est pas disponible !\e[0m\n";
             }
             break;
         case 3:
             popen("cls", "w");
-            
+
             // DISPLAY RULES
             echo "Bienvenue sur le jeu Dragon Ball\n\nRemporte 10 victoires afin de terminer le jeu !\n\nBonne chance,\n\nPress une touche\n";
             readline("> ");
@@ -681,7 +697,7 @@ while ($jeu->getCombat() <= 10) {
             switch ($choice) {
                 case 1:
                     // IF YOU WANT TO RECOVER THE SAVE, SET THE BATTLES, VICTORIES AND DEFEATS
-                    popen("cls","w");
+                    popen("cls", "w");
                     $jeu->setCombat($lines[0]);
                     $jeu->setVictoire($lines[1]);
                     $jeu->setDefaite($lines[2]);
@@ -689,7 +705,7 @@ while ($jeu->getCombat() <= 10) {
                     // SAVE ANIMATION
                     echo "\e[0;32mRécuperation de la sauvegarde en cours...\e[0m\n";
                     sleep(1);
-                    popen("cls","w");
+                    popen("cls", "w");
                     echo "\e[0;32mSauvegarde récupérée !\e[0m\n";
                     sleep(1);
                     break;
