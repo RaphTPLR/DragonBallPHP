@@ -2,7 +2,7 @@
 class Personnages
 {
     protected $nom;
-    protected $Puissance;
+    protected $puissance;
     protected $pv;
     protected $attacks;
     protected $bonus;
@@ -56,10 +56,6 @@ class Personnages
     public function Mourir()
     {
         echo $this->getNom(), " est mort !\n";
-    }
-    public function DisplayStat($nom,$pvn,$Puissance){
-
-
     }
 }
 
@@ -117,11 +113,7 @@ class Freezer extends Vilain
         $this->pv = 100;
         $this->attaque_vilain = "";
         $this->attacks = [["coup de queue", $this->puissance], ["boule de la mort", 50]];
-<<<<<<< HEAD
-        $this->bonus = [["supernova"]];
-=======
         $this->bonus = ["supernova", 95];
->>>>>>> a504d8676f5d8b4b88217c7fadd7f6b9f69dd4bf
     }
 }
 class Cell extends Vilain
@@ -134,6 +126,7 @@ class Cell extends Vilain
         $this->attaque_vilain = "";
         $this->attacks = [["coup de queue", $this->puissance], ["aspiration", 50]];
         $this->bonus = [["super kamehameha"]];
+    }
 }
 
 class Display
@@ -145,6 +138,7 @@ class Display
 
     public function Combat($allie, $enemie, $current_combat)
     {
+        global $abandon;
         $compt = 0;
         while ($compt == 0) {
             popen("cls", "w");
@@ -193,10 +187,14 @@ class Display
                     echo "Esquive !\n";
                     break;
                 case 3 :
-                    break;
+                    return $abandon = true;
                 default :
                     echo "Ceci n'est pas disponible !\n";
             }
+        }
+
+        if ($compt == 0) {
+            return;
         }
 
         $this->setVictoire($this->getVictoire() + 1);
@@ -239,9 +237,14 @@ while ($a == 0) {
     echo "Que souhaites-tu faire ?\n\n1 - Jouer\n2 - Voir les personnages\n3 - Règle\n4 - Quitter";
     $choice = readline("> ");
     $current_combat = 0;
+    global $abandon;
+    $abandon = false;
     switch ($choice) {
         case 1:
             while ($current_combat < 4) {
+                if ($abandon) {
+                    $current_combat = 4;
+                }
                 $current_combat++;
                 switch ($current_combat) {
                     case 1:
